@@ -1,4 +1,4 @@
-const CACHE_VERSION = "dragones-maps-v8";
+const CACHE_VERSION = "dragones-maps-v10";
 const APP_CACHE = `${CACHE_VERSION}-app`;
 const RUNTIME_CACHE = `${CACHE_VERSION}-runtime`;
 const TILE_CACHE = `${CACHE_VERSION}-tiles`;
@@ -24,6 +24,7 @@ const APP_SHELL = [
   "./assets/css/organizer.css",
   "./assets/css/profile.css",
   "./assets/js/site.js",
+  "./assets/js/toast.js",
   "./assets/js/theme-init.js",
   "./assets/js/theme.js",
   "./assets/js/session-ui.js",

@@ -131,6 +131,8 @@ function renderizarFicha(lugar) {
 }
 
 function abrirLugar(lugar, { actualizarUrl = true } = {}) {
+  document.body.classList.remove("topbar-search-open");
+  document.querySelector("[data-topbar-search-toggle]")?.setAttribute("aria-expanded", "false");
   lugarActivo = lugar;
   map.flyTo(lugar.coordenadas, 18, { duration: 0.65 });
   marcadores.get(lugar.id)?.openPopup();

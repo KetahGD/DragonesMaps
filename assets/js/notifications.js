@@ -1,6 +1,6 @@
 import { detectarUsuarioActivo } from "./auth.js";
 import { supabase } from "./supabase.js";
-import { mostrarToast } from "./site.js";
+import { mostrarToast } from "./toast.js";
 
 const VAPID_PUBLIC_KEY = "BIqd8TfpSCV6DdSsf6cNFAhZGX0lJAP8u7b-bvqTCOLUhrWbDb735ZrmedJQCcrQVN9_oebOBOssgfkIMyxtWW8";
 const CATEGORIAS = ["evaluaciones", "cuatrimestres", "inscripciones", "vacaciones", "suspensiones", "becas", "servicioSocial", "estadias"];
@@ -25,6 +25,20 @@ function cambiarDistintivo(texto, tipo = "") {
   if (!distintivo) return;
   distintivo.textContent = texto;
   distintivo.className = `notification-badge${tipo ? ` is-${tipo}` : ""}`;
+}
+
+function mensajeErrorNotificacion(error) {
+  const detalle = `${error?.name || ""} ${error?.message || ""}`.toLowerCase();
+  if (detalle.includes("registration failed") || detalle.includes("push service error") || detalle.includes("aborterror")) {
+    return "El servicio de notificaciones del navegador no respondió. Actualiza el navegador, evita el modo incógnito y vuelve a intentarlo; en algunos teléfonos el servicio push puede no estar disponible temporalmente.";
+  }
+  if (detalle.includes("invalidstateerror")) {
+    return "El navegador no pudo preparar las notificaciones. Recarga la página y vuelve a intentarlo.";
+  }
+  if (detalle.includes("notallowederror") || detalle.includes("permission") || detalle.includes("permiso")) {
+    return "Las notificaciones están bloqueadas. Habilítalas desde los permisos del sitio y vuelve a intentarlo.";
+  }
+  return error?.message || "No fue posible activar los recordatorios en este dispositivo.";
 }
 
 function bloquearFormulario(bloqueado) {
@@ -220,7 +234,7 @@ botonActivar?.addEventListener("click", async () => {
     await activarNotificaciones();
   } catch (error) {
     console.error("No fue posible activar las notificaciones.", error);
-    cambiarEstado(error.message || "No fue posible activar los recordatorios.", "error");
+    cambiarEstado(mensajeErrorNotificacion(error), "error");
   } finally {
     bloquearFormulario(false);
   }
@@ -235,7 +249,8 @@ formulario?.addEventListener("submit", async (evento) => {
     cambiarEstado("Tus preferencias se guardaron correctamente.", "success");
     mostrarToast("Preferencias de recordatorios guardadas.");
   } catch (error) {
-    cambiarEstado(error.message || "No fue posible guardar las preferencias.", "error");
+    console.error("No fue posible guardar las preferencias de notificaciones.", error);
+    cambiarEstado(mensajeErrorNotificacion(error), "error");
   } finally {
     bloquearFormulario(false);
   }
@@ -247,7 +262,8 @@ botonDesactivar?.addEventListener("click", async () => {
   try {
     await desactivarNotificaciones();
   } catch (error) {
-    cambiarEstado(error.message || "No fue posible desactivar los recordatorios.", "error");
+    console.error("No fue posible desactivar las notificaciones.", error);
+    cambiarEstado(mensajeErrorNotificacion(error), "error");
   } finally {
     bloquearFormulario(false);
   }
