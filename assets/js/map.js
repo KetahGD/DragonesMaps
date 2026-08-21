@@ -2,6 +2,7 @@ import { lugares, categorias, obtenerLugarPorId } from "../data/places.js";
 import { configurarBusqueda } from "./search.js";
 import { configurarVisorPanoramico } from "./panorama.js";
 import { configurarRutas } from "./routing.js";
+import { configureBottomSheets } from "./bottom-sheets.js";
 import { mostrarToast } from "./site.js?v=20260820-3";
 
 const CENTRO_CAMPUS = [19.61275, -99.34035];
@@ -261,6 +262,7 @@ configurarBusqueda({
 });
 configurarFiltros();
 rutas = configurarRutas({ map, lugares, cerrarFicha, mostrarToast });
+configureBottomSheets();
 
 document.querySelector("[data-place-close]").addEventListener("click", cerrarFicha);
 document.querySelector("[data-zoom-in]").addEventListener("click", () => map.zoomIn());
