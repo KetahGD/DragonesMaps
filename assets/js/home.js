@@ -11,7 +11,7 @@ detectarUsuarioActivo((usuario) => {
   invitado.hidden = Boolean(usuario);
   sesion.hidden = !usuario;
   if (usuario) {
-    nombre.textContent = usuario.user_metadata?.nombre || "Estudiante";
+    nombre.textContent = usuario.user_metadata?.nombre || usuario.user_metadata?.full_name || usuario.user_metadata?.name || "Estudiante";
     correo.textContent = usuario.email || "Cuenta activa";
   }
 });
