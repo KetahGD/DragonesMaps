@@ -1,48 +1,67 @@
-# 🐉 Dragones Maps – Mapa Interactivo para la UTFV: https://ketahgd.github.io/Dragones-Maps/
+# Dragones Maps
 
+Mapa web público para orientarse dentro del campus de la Universidad Tecnológica Fidel Velázquez. Incluye búsqueda tolerante a acentos, filtros por categoría, fichas oficiales, ubicación opcional, panorámicas propias, calendario, directorio, cuentas opcionales y recordatorios académicos locales y con Supabase.
 
-> Aplicación web que facilita la ubicación dentro del campus de la **Universidad Tecnológica Fidel Velázquez (UTFV)**. Incluye mapa interactivo, búsqueda de edificios, vista 360°, autenticación de usuarios y directorio académico.
+## Ejecutar localmente
 
-## 📖 Tabla de Contenidos
-- [Descripción](#descripción)
-- [Características](#características)
-- [Tecnologías Utilizadas](#tecnologías-utilizadas)
-- [Instalación y Configuración](#instalación-y-configuración)
-- [Uso](#uso)
-- [Estructura del Proyecto](#estructura-del-proyecto)
-- [Firebase](#firebase)
-- [Contribuciones](#contribuciones)
-- [Licencia](#licencia)
-- [Agradecimientos](#agradecimientos)
+Los módulos JavaScript necesitan un servidor local; no abras los HTML con doble clic.
 
----
+```powershell
+python -m http.server 4173 --bind 127.0.0.1
+```
 
-**Dragones Maps** es un proyecto escolar desarrollado para resolver la falta de orientación dentro del campus de la UTFV. Permite a estudiantes, docentes y visitantes localizar edificios, consultar información detallada, ver panorámicas 360° y conocer su ubicación en tiempo real.
-El proyecto combina mapas interactivos con Leaflet, autenticación mediante Firebase y un diseño responsive adaptado tanto para escritorio como para dispositivos móviles.
+Después visita `http://127.0.0.1:4173/`.
 
----
+## Estructura
 
-## ✨ Características
-- 🗺️ **Mapa interactivo** con marcadores para cada edificio/punto de interés.
-- 🔍 **Búsqueda inteligente** con sugerencias y autocompletado.
-- 📍 **Geolocalización en tiempo real** que muestra la ubicación actual del usuario.
-- 🏢 **Información detallada** de cada edificio (imagen, descripción, enlace a vista 360°).
-- 🎓 **Autenticación de usuarios** (registro, inicio de sesión, cierre de sesión) usando Firebase Auth.
-- 📅 **Calendario académico** con imágenes descargables.
-- 📞 **Directorio universitario** con enlaces a servicios y recursos institucionales.
-- 📱 **Diseño responsive** que se adapta a diferentes tamaños de pantalla.
+```text
+Dragones-Maps-main/
+├─ index.html                     Mapa principal
+├─ Inicio.html                    Portada y estado de sesión
+├─ InicioIniciarSesion.html       Acceso
+├─ InicioCrearCuenta.html         Registro
+├─ RestablecerPassword.html       Nueva contraseña después de recuperar la cuenta
+├─ calendario.html
+├─ directorio.html
+├─ push-sw.js                     Recepción Web Push en segundo plano
+├─ NOTIFICACIONES.md              Operación de los recordatorios
+├─ supabase/
+│  ├─ migrations/                 Tablas, RLS, calendario y tarea diaria
+│  └─ functions/                  Envío seguro de Web Push
+├─ assets/
+│  ├─ css/                        Estilos por sección
+│  ├─ data/places.js              Fuente central de lugares
+│  ├─ js/                         Mapa, búsqueda, cuenta y componentes
+│  └─ images/
+│     ├─ branding/                Logotipos e icono oficial
+│     ├─ panoramas/               Panorámicas públicas identificadas
+│     ├─ places/                  Originales y fotografías WebP
+│     └─ archive/                 Panorámicas y calendarios anteriores conservados
+└─ vendor/                        Leaflet y Pannellum locales
+```
 
----
+Los HTML permanecen en la raíz para conservar enlaces simples y compatibilidad con GitHub Pages. `InicioInciarSesion.html` solo mantiene compatibilidad con la dirección antigua mal escrita y redirige al archivo correcto.
 
-## 🛠️ Tecnologías Utilizadas
-| Área          | Tecnologías |
-|---------------|-------------|
-| Frontend      | HTML5, CSS3, JavaScript (Vanilla) |
-| Mapas         | [Leaflet](https://leafletjs.com/) + [OpenStreetMap](https://www.openstreetmap.org/) |
-| Vistas 360°   | [Panoraven](https://panoraven.com/) (embebidos) |
-| Autenticación | [Firebase Authentication](https://firebase.google.com/products/auth) |
-| Base de Datos | [Firestore](https://firebase.google.com/products/firestore) |
-| Iconos        | [Icons8](https://icons8.com/) |
-| Control de versiones | Git + GitHub |
+## Lugares y panorámicas
 
----
+`assets/data/places.js` contiene 26 ubicaciones públicas. Los edificios C a P usan los nombres oficiales proporcionados, junto con alias cortos para búsqueda. Centro de Investigación se unificó con CCAI; Biblioteca, Canchas, CCAI, Rectoría, Salones de Idiomas, La Velaria y la conexión D–E ya están georreferenciados.
+
+Las 23 vistas panorámicas disponibles se encuentran en `assets/images/panoramas`. Cuando un lugar tiene más de una vista, la ficha muestra un botón para cada una. Las versiones sustituidas se conservan en `assets/images/archive` y no se cargan públicamente.
+
+El calendario escolar 2026–2027 se genera como HTML adaptable desde `assets/js/calendar.js`. Las tres imágenes anteriores se conservan únicamente en `assets/images/archive/calendars-old`.
+
+## Supabase
+
+La aplicación usa Supabase Auth por correo y contraseña. El perfil mínimo se guarda en `public.profiles` y contiene `nombre`, `correo` y las fechas de creación y actualización. Las contraseñas se administran exclusivamente mediante Supabase Auth.
+
+Todas las tablas personales tienen Row Level Security. Cada estudiante solo puede consultar o cambiar su perfil, preferencias y dispositivos. El calendario es público y solo el servidor puede modificarlo.
+
+Los recordatorios automáticos son optativos. La app solicita permiso únicamente al pulsar **Activar recordatorios**, registra la suscripción Web Push y conserva preferencias por categoría y anticipación. La Edge Function `send-academic-reminders` se ejecuta diariamente a las 08:00, hora de Ciudad de México, mediante Supabase Cron.
+
+La campana también muestra a cualquier visitante los periodos en curso y las fechas de los siguientes 30 días. Estos avisos locales no requieren cuenta ni permisos y muestran una alerta discreta una vez al día por dispositivo. Su fuente se encuentra en `assets/data/academic-reminders.js`.
+
+Los valores privados de Web Push y de la tarea programada están cifrados en Supabase y no se guardan en el repositorio. Consulta `NOTIFICACIONES.md` para mantenimiento y verificación.
+
+## Tecnologías
+
+HTML, CSS y JavaScript; Leaflet 1.9.4 con OpenStreetMap; Pannellum 2.5.7; Supabase JavaScript 2.112.3; Web Push estándar.

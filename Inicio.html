@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b6b3a">
+  <title>Dragones Maps | Inicio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/app.css?v=20260820-2">
+  <link rel="stylesheet" href="assets/css/home.css?v=20260820-4">
+  <link rel="icon" type="image/x-icon" href="assets/images/branding/favicon.ico?v=20260820-2">
+</head>
+<body class="landing-page">
+  <header class="simple-header">
+    <a class="brand" href="index.html" aria-label="Dragones Maps"><span class="brand__images" aria-hidden="true"><img class="brand__symbol" src="assets/images/branding/dragon-logo-transparent.png" alt="" width="371" height="706"><span class="brand__text">DRAGONES MAPS</span></span><span class="sr-only">Dragones Maps</span></a>
+    <a class="secondary-button simple-header__map" href="index.html">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18-6 3V6l6-3 6 3 6-3v15l-6 3-6-3Zm0 0V3m6 18V6"/></svg>
+      Abrir mapa
+    </a>
+  </header>
+
+  <main class="landing-main">
+    <section class="landing-hero" aria-labelledby="landing-title">
+      <div class="landing-visual">
+        <img src="assets/images/branding/dragon-logo-transparent.png" alt="Símbolo de Dragones Maps" width="371" height="706">
+      </div>
+
+      <div class="landing-content">
+        <p class="eyebrow">Universidad Tecnológica Fidel Velázquez</p>
+        <h1 id="landing-title">Encuentra tu destino dentro del campus</h1>
+        <p class="landing-lead">Busca edificios, conoce sus áreas y explora el campus desde un mapa diseñado para estudiantes y visitantes.</p>
+
+        <div class="landing-search" data-search-root role="search">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+          <label class="sr-only" for="landing-search-input">Buscar un lugar</label>
+          <input id="landing-search-input" data-search-input type="search" placeholder="¿A dónde quieres ir?" autocomplete="off" role="combobox" aria-autocomplete="list" aria-controls="landing-search-results" aria-expanded="false">
+          <div id="landing-search-results" class="search-results" data-search-results role="listbox" hidden></div>
+        </div>
+
+        <div class="account-actions" data-guest-actions>
+          <a class="primary-button" href="InicioIniciarSesion.html">Iniciar sesión</a>
+          <a class="secondary-button" href="InicioCrearCuenta.html">Crear cuenta</a>
+        </div>
+
+        <section class="session-card" data-session-card hidden aria-label="Sesión activa">
+          <div class="session-card__avatar" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4.5 21a7.5 7.5 0 0 1 15 0"/></svg>
+          </div>
+          <div><small>Sesión activa</small><strong data-session-name></strong><span data-session-email></span></div>
+          <button class="secondary-button" type="button" data-sign-out>Cerrar sesión</button>
+          <p class="form-status" data-session-status hidden></p>
+        </section>
+
+        <p class="account-note">La cuenta es opcional. Puedes consultar todo el mapa sin registrarte.</p>
+
+        <section id="notificaciones" class="notification-settings" data-notification-settings aria-labelledby="notification-title">
+          <div class="notification-settings__heading">
+            <span class="notification-settings__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9ZM10 21h4"/></svg>
+            </span>
+            <div>
+              <p class="eyebrow">Recordatorios académicos</p>
+              <h2 id="notification-title">Recibe avisos de fechas importantes</h2>
+              <p>Elige qué periodos te interesan y con cuánta anticipación deseas recibir el aviso.</p>
+            </div>
+            <span class="notification-badge" data-notification-badge>Sin configurar</span>
+          </div>
+
+          <div class="notification-guest" data-notification-guest>
+            <p>Inicia sesión para guardar tus preferencias y vincular este dispositivo.</p>
+            <a class="secondary-button" href="InicioIniciarSesion.html?continuar=Inicio.html%23notificaciones">Iniciar sesión</a>
+          </div>
+
+          <form class="notification-form" data-notification-form hidden>
+            <fieldset>
+              <legend>Quiero recibir avisos sobre</legend>
+              <div class="notification-options notification-options--categories">
+                <label><input type="checkbox" name="categoria" value="evaluaciones" checked><span>Evaluaciones y exámenes</span></label>
+                <label><input type="checkbox" name="categoria" value="cuatrimestres" checked><span>Inicio y fin de cuatrimestre</span></label>
+                <label><input type="checkbox" name="categoria" value="inscripciones" checked><span>Inscripción y reinscripción</span></label>
+                <label><input type="checkbox" name="categoria" value="vacaciones" checked><span>Periodos vacacionales</span></label>
+                <label><input type="checkbox" name="categoria" value="suspensiones" checked><span>Suspensión de labores</span></label>
+                <label><input type="checkbox" name="categoria" value="becas"><span>Becas internas</span></label>
+                <label><input type="checkbox" name="categoria" value="servicioSocial"><span>Servicio social</span></label>
+                <label><input type="checkbox" name="categoria" value="estadias"><span>Estadías</span></label>
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend>Anticipación</legend>
+              <div class="notification-options notification-options--days">
+                <label><input type="checkbox" name="anticipacion" value="7" checked><span>7 días antes</span></label>
+                <label><input type="checkbox" name="anticipacion" value="3" checked><span>3 días antes</span></label>
+                <label><input type="checkbox" name="anticipacion" value="1" checked><span>1 día antes</span></label>
+                <label><input type="checkbox" name="anticipacion" value="0"><span>El mismo día</span></label>
+              </div>
+            </fieldset>
+
+            <p class="notification-status" data-notification-status role="status" aria-live="polite">Activa los recordatorios cuando termines de elegir.</p>
+            <div class="notification-actions">
+              <button class="primary-button" type="button" data-notification-enable>Activar recordatorios</button>
+              <button class="secondary-button" type="submit" data-notification-save>Guardar preferencias</button>
+              <button class="notification-disable" type="button" data-notification-disable hidden>Desactivar en este dispositivo</button>
+            </div>
+          </form>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="assets/js/site.js?v=20260820-2"></script>
+  <script type="module" src="assets/js/home.js?v=20260821-1"></script>
+  <script type="module" src="assets/js/notifications.js?v=20260821-1"></script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+.directory-main { width: min(1180px, calc(100% - 40px)); margin: 0 auto; padding: calc(var(--header-height) + 48px) 0 72px; }
+.directory-main .page-heading { max-width: 760px; margin-bottom: 32px; }
+.directory-main .page-heading h1 { margin: 3px 0 8px; color: var(--green-900); font-family: var(--font-display); font-size: clamp(32px, 5vw, 50px); }
+.directory-main .page-heading p:last-child { margin: 0; color: var(--muted); line-height: 1.7; }
+.directory-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+.directory-card { display: flex; min-height: 270px; flex-direction: column; align-items: flex-start; padding: 24px; border: 1px solid var(--border); border-radius: 20px; background: rgba(255, 255, 255, 0.92); box-shadow: var(--shadow-sm); transition: transform 180ms ease, box-shadow 180ms ease; }
+.directory-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+.directory-card__icon { display: grid; width: 48px; height: 48px; place-items: center; margin-bottom: 20px; border-radius: 14px; background: var(--green-100); color: var(--green-700); }
+.directory-card__icon svg { width: 25px; height: 25px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.directory-card h2 { margin: 0 0 9px; color: var(--green-900); font-family: var(--font-display); font-size: 19px; }
+.directory-card p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.65; }
+.directory-card a { display: inline-flex; align-items: center; gap: 6px; margin-top: auto; padding-top: 22px; color: var(--green-700); font-size: 14px; font-weight: 800; text-decoration: none; }
+.directory-card a:hover { color: var(--green-900); text-decoration: underline; }
+
+@media (max-width: 950px) { .directory-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 900px) { .directory-main { width: min(100% - 24px, 760px); padding-top: calc(var(--header-height) + 28px); } }
+@media (max-width: 620px) { .directory-grid { grid-template-columns: 1fr; } .directory-card { min-height: 230px; } }
