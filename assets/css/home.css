@@ -56,6 +56,8 @@
 .session-card > div:nth-child(2) { display: grid; gap: 2px; min-width: 0; }
 .session-card small, .session-card span { color: var(--muted); font-size: 12px; overflow: hidden; text-overflow: ellipsis; }
 .session-card strong { color: var(--green-900); }
+.session-card__organizer { width: max-content; margin-top: 5px; color: var(--green-700); font-size: 12px; font-weight: 800; text-decoration: none; }
+.session-card__organizer:hover { text-decoration: underline; }
 .session-card .form-status { grid-column: 1 / -1; }
 
 .notification-settings {

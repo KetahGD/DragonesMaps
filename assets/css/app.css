@@ -30,7 +30,7 @@ html { color-scheme: light; }
 
 body {
   margin: 0;
-  min-width: 320px;
+  min-width: 0;
   background: var(--background);
   color: var(--text);
   font-family: var(--font-body);
@@ -39,6 +39,7 @@ body {
 
 .content-page {
   min-height: 100vh;
+  overflow-x: hidden;
   background:
     radial-gradient(circle at 10% 0%, rgba(221, 242, 221, 0.9), transparent 31rem),
     var(--background);
