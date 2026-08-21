@@ -1,5 +1,8 @@
 import { configurarBusqueda } from "./search.js";
 import { configurarNotificacionesLocales } from "./local-notifications.js";
+import { configurarTema } from "./theme.js";
+import { configurarInterfazSesion } from "./session-ui.js";
+import { configurarModoOffline } from "./offline.js";
 
 function configurarMenu() {
   const boton = document.querySelector("[data-menu-button]");
@@ -66,4 +69,7 @@ export function mostrarToast(mensaje, tipo = "info") {
 
 configurarMenu();
 configurarBuscadores();
+configurarTema();
+configurarInterfazSesion();
 configurarNotificacionesLocales(mostrarToast);
+configurarModoOffline(mostrarToast);

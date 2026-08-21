@@ -6,10 +6,13 @@
   <meta name="theme-color" content="#0b6b3a">
   <meta name="description" content="Perfil estudiantil privado de Dragones Maps.">
   <title>Dragones Maps | Mi perfil</title>
+  <script src="assets/js/theme-init.js"></script>
+  <link rel="manifest" href="manifest.webmanifest">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/app.css?v=20260821-6">
+  <link rel="stylesheet" href="assets/css/home.css?v=20260821-8">
   <link rel="stylesheet" href="assets/css/profile.css?v=20260821-1">
   <link rel="icon" type="image/x-icon" href="assets/images/branding/favicon.ico?v=20260820-2">
 </head>
@@ -19,7 +22,7 @@
       <button class="icon-button" type="button" data-menu-button aria-label="Abrir menú" aria-controls="main-menu" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
       <a class="brand" href="index.html" aria-label="Dragones Maps"><span class="brand__images" aria-hidden="true"><img class="brand__symbol" src="assets/images/branding/dragon-logo-transparent.png" alt="" width="371" height="706"><span class="brand__text">DRAGONES MAPS</span></span><span class="sr-only">Dragones Maps</span></a>
     </div>
-    <a class="secondary-button account-topbar__account" href="Inicio.html">Cuenta y recordatorios</a>
+    <a class="icon-button profile-button" href="perfil.html" data-session-profile aria-label="Mi perfil"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4.5 21a7.5 7.5 0 0 1 15 0"/></svg></a>
   </header>
 
   <nav id="main-menu" class="side-menu" data-menu-panel aria-label="Navegación principal" aria-hidden="true">
@@ -30,7 +33,6 @@
     <a class="side-menu__link" href="directorio-academico.html"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M3 20a6 6 0 0 1 12 0m2-11a3 3 0 0 1 0 6m1 2c2 0 3.5 1.2 4 3"/></svg><span>Directorio académico</span></a>
     <a class="side-menu__link" href="organizador.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3v3m12-3v3M4 9h16M5 5h14a1 1 0 0 1 1 1v14H4V6a1 1 0 0 1 1-1Z"/><path d="m8 14 2 2 5-5"/></svg><span>Mi organizador</span></a>
     <a class="side-menu__link is-current" href="perfil.html" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4.5 21a7.5 7.5 0 0 1 15 0"/></svg><span>Mi perfil</span></a>
-    <a class="side-menu__link" href="Inicio.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9M12 7v5l3 2"/></svg><span>Mi cuenta</span></a>
   </nav>
   <button class="menu-overlay" type="button" data-menu-overlay aria-label="Cerrar menú" hidden></button>
 
@@ -81,10 +83,50 @@
           <div class="profile-form__actions"><button class="primary-button" type="submit">Guardar cambios</button><button class="secondary-button" type="button" data-profile-signout>Cerrar sesión</button></div>
         </form>
       </section>
+
+      <section id="recordatorios" class="notification-settings profile-notifications" data-notification-settings aria-labelledby="notification-title">
+        <div class="notification-settings__heading">
+          <span class="notification-settings__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9ZM10 21h4"/></svg></span>
+          <div><p class="eyebrow">Recordatorios automáticos</p><h2 id="notification-title">Avisos de fechas importantes</h2><p>Después de autorizar este dispositivo, recibirás avisos automáticos aunque no tengas abierta la página.</p></div>
+          <span class="notification-badge" data-notification-badge>Sin configurar</span>
+        </div>
+        <div class="notification-guest" data-notification-guest><p>Inicia sesión para guardar tus preferencias y vincular este dispositivo.</p></div>
+        <form class="notification-form" data-notification-form hidden>
+          <fieldset>
+            <legend>Quiero recibir avisos sobre</legend>
+            <div class="notification-options notification-options--categories">
+              <label><input type="checkbox" name="categoria" value="evaluaciones" checked><span>Evaluaciones y exámenes</span></label>
+              <label><input type="checkbox" name="categoria" value="cuatrimestres" checked><span>Inicio y fin de cuatrimestre</span></label>
+              <label><input type="checkbox" name="categoria" value="inscripciones" checked><span>Inscripción y reinscripción</span></label>
+              <label><input type="checkbox" name="categoria" value="vacaciones" checked><span>Periodos vacacionales</span></label>
+              <label><input type="checkbox" name="categoria" value="suspensiones" checked><span>Suspensión de labores</span></label>
+              <label><input type="checkbox" name="categoria" value="becas"><span>Becas internas</span></label>
+              <label><input type="checkbox" name="categoria" value="servicioSocial"><span>Servicio social</span></label>
+              <label><input type="checkbox" name="categoria" value="estadias"><span>Estadías</span></label>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>Anticipación</legend>
+            <div class="notification-options notification-options--days">
+              <label><input type="checkbox" name="anticipacion" value="7" checked><span>7 días antes</span></label>
+              <label><input type="checkbox" name="anticipacion" value="3" checked><span>3 días antes</span></label>
+              <label><input type="checkbox" name="anticipacion" value="1" checked><span>1 día antes</span></label>
+              <label><input type="checkbox" name="anticipacion" value="0"><span>El mismo día</span></label>
+            </div>
+          </fieldset>
+          <p class="notification-status" data-notification-status role="status" aria-live="polite">La comprobación automática se realiza diariamente.</p>
+          <div class="notification-actions">
+            <button class="primary-button" type="button" data-notification-enable>Activar recordatorios</button>
+            <button class="secondary-button" type="submit" data-notification-save>Guardar preferencias</button>
+            <button class="notification-disable" type="button" data-notification-disable hidden>Desactivar en este dispositivo</button>
+          </div>
+        </form>
+      </section>
     </div>
   </main>
 
   <script type="module" src="assets/js/site.js?v=20260820-3"></script>
   <script type="module" src="assets/js/profile.js?v=20260821-1"></script>
+  <script type="module" src="assets/js/notifications.js?v=20260821-8"></script>
 </body>
 </html>

@@ -74,6 +74,13 @@ function renderizarFicha(lugar) {
   const resumen = panel.querySelector("[data-place-summary]");
   const secciones = panel.querySelector("[data-place-sections]");
   const panoramasContenedor = panel.querySelector("[data-place-panoramas]");
+  const handle = panel.querySelector("[data-place-swipe-handle]");
+
+  panel.classList.remove("is-expanded");
+  panel.style.removeProperty("--sheet-drag-y");
+  panel.scrollTop = 0;
+  handle?.setAttribute("aria-expanded", "false");
+  handle?.setAttribute("aria-label", "Expandir información del lugar");
 
   cargarImagenConFallback(imagen, lugar.imagenMiniatura || lugar.imagen, lugar.imagenOriginal);
   imagen.alt = `Vista de ${lugar.nombre}`;
@@ -118,7 +125,9 @@ function renderizarFicha(lugar) {
   panel.classList.add("is-open");
   panel.setAttribute("aria-hidden", "false");
   document.body.classList.add("place-open");
-  window.setTimeout(() => panel.querySelector("[data-place-close]")?.focus({ preventScroll: true }), 220);
+  if (window.matchMedia("(min-width: 901px)").matches) {
+    window.setTimeout(() => panel.querySelector("[data-place-close]")?.focus({ preventScroll: true }), 220);
+  }
 }
 
 function abrirLugar(lugar, { actualizarUrl = true } = {}) {
@@ -135,7 +144,9 @@ function abrirLugar(lugar, { actualizarUrl = true } = {}) {
 
 function cerrarFicha({ actualizarUrl = true } = {}) {
   const panel = document.querySelector("[data-place-panel]");
-  panel.classList.remove("is-open");
+  panel.classList.remove("is-open", "is-expanded");
+  panel.style.removeProperty("--sheet-drag-y");
+  panel.querySelector("[data-place-swipe-handle]")?.setAttribute("aria-expanded", "false");
   panel.setAttribute("aria-hidden", "true");
   document.body.classList.remove("place-open");
   map.closePopup();

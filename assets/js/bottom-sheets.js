@@ -2,72 +2,116 @@ function makeDismissible(panel, handle, closeButton) {
   if (!panel || !handle || !closeButton) return;
   let pointerId = null;
   let startY = 0;
-  let startX = 0;
   let startTime = 0;
-  let distance = 0;
   let dragging = false;
 
-  const resetStyles = () => {
-    panel.style.removeProperty("transition");
-    panel.style.removeProperty("transform");
-    handle.classList.remove("is-dragging");
-  };
-
-  const finish = (dismiss) => {
-    if (!dragging) return;
+  const reset = () => {
     dragging = false;
+    panel.style.removeProperty("--sheet-drag-y");
     handle.classList.remove("is-dragging");
-    panel.style.transition = "transform 180ms ease";
-    if (dismiss) {
-      panel.style.transform = "translateY(105%)";
-      window.setTimeout(() => {
-        closeButton.click();
-        window.setTimeout(resetStyles, 250);
-      }, 150);
-    } else {
-      panel.style.transform = "translateY(0)";
-      window.setTimeout(resetStyles, 190);
-    }
   };
 
   handle.addEventListener("pointerdown", (event) => {
     if (window.innerWidth > 900 || !panel.classList.contains("is-open") || event.isPrimary === false) return;
     pointerId = event.pointerId;
     startY = event.clientY;
-    startX = event.clientX;
     startTime = performance.now();
-    distance = 0;
     dragging = true;
     handle.classList.add("is-dragging");
     handle.setPointerCapture(pointerId);
-    panel.style.transition = "none";
+  });
+
+  handle.addEventListener("pointermove", (event) => {
+    if (!dragging || event.pointerId !== pointerId) return;
+    const deltaY = Math.max(0, event.clientY - startY);
+    if (!deltaY) return;
+    event.preventDefault();
+    panel.style.setProperty("--sheet-drag-y", `${Math.min(deltaY, window.innerHeight * .72)}px`);
+  }, { passive: false });
+
+  handle.addEventListener("pointerup", (event) => {
+    if (!dragging || event.pointerId !== pointerId) return;
+    const distance = Math.max(0, event.clientY - startY);
+    const velocity = distance / Math.max(performance.now() - startTime, 1);
+    reset();
+    if (distance > 92 || velocity > .55) closeButton.click();
+  });
+
+  handle.addEventListener("pointercancel", reset);
+  closeButton.addEventListener("click", reset);
+}
+
+function makeExpandablePlaceSheet(panel, handle, closeButton) {
+  if (!panel || !handle || !closeButton) return;
+  let pointerId = null;
+  let startY = 0;
+  let startTime = 0;
+  let dragging = false;
+  let moved = false;
+
+  const setExpanded = (expanded) => {
+    panel.classList.toggle("is-expanded", expanded);
+    handle.setAttribute("aria-expanded", String(expanded));
+    handle.setAttribute("aria-label", expanded ? "Contraer información del lugar" : "Expandir información del lugar");
+    panel.style.removeProperty("--sheet-drag-y");
+    if (!expanded) panel.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  handle.addEventListener("click", () => {
+    if (moved || window.innerWidth > 900 || !panel.classList.contains("is-open")) return;
+    setExpanded(!panel.classList.contains("is-expanded"));
+  });
+
+  handle.addEventListener("pointerdown", (event) => {
+    if (window.innerWidth > 900 || !panel.classList.contains("is-open") || event.isPrimary === false) return;
+    pointerId = event.pointerId;
+    startY = event.clientY;
+    startTime = performance.now();
+    dragging = true;
+    moved = false;
+    handle.classList.add("is-dragging");
+    handle.setPointerCapture(pointerId);
   });
 
   handle.addEventListener("pointermove", (event) => {
     if (!dragging || event.pointerId !== pointerId) return;
     const deltaY = event.clientY - startY;
-    const deltaX = event.clientX - startX;
-    if (deltaY < 0 || Math.abs(deltaX) > Math.abs(deltaY) * 1.25) return;
+    if (Math.abs(deltaY) < 4) return;
+    moved = true;
     event.preventDefault();
-    distance = deltaY;
-    const softened = Math.min(deltaY, window.innerHeight * .72);
-    panel.style.transform = `translateY(${softened}px)`;
+    const expanded = panel.classList.contains("is-expanded");
+    const drag = expanded ? Math.max(0, deltaY) : Math.max(-160, deltaY);
+    panel.style.setProperty("--sheet-drag-y", `${drag}px`);
   }, { passive: false });
 
   handle.addEventListener("pointerup", (event) => {
     if (!dragging || event.pointerId !== pointerId) return;
-    distance = Math.max(distance, event.clientY - startY);
-    const elapsed = Math.max(performance.now() - startTime, 1);
-    const velocity = distance / elapsed;
-    finish(distance > 92 || velocity > .55);
+    const deltaY = event.clientY - startY;
+    const velocity = deltaY / Math.max(performance.now() - startTime, 1);
+    const expanded = panel.classList.contains("is-expanded");
+    dragging = false;
+    handle.classList.remove("is-dragging");
+    panel.style.removeProperty("--sheet-drag-y");
+
+    if (expanded && (deltaY > 64 || velocity > .48)) setExpanded(false);
+    else if (!expanded && (deltaY < -42 || velocity < -.42)) setExpanded(true);
+    else if (!expanded && (deltaY > 88 || velocity > .55)) closeButton.click();
+
+    window.setTimeout(() => { moved = false; }, 0);
   });
 
-  handle.addEventListener("pointercancel", () => finish(false));
-  closeButton.addEventListener("click", () => window.setTimeout(resetStyles, 260));
+  handle.addEventListener("pointercancel", () => {
+    dragging = false;
+    moved = false;
+    handle.classList.remove("is-dragging");
+    panel.style.removeProperty("--sheet-drag-y");
+  });
+
+  closeButton.addEventListener("click", () => setExpanded(false));
 }
 
 export function configureBottomSheets() {
-  makeDismissible(
+  makeExpandablePlaceSheet(
     document.querySelector("[data-place-panel]"),
     document.querySelector("[data-place-swipe-handle]"),
     document.querySelector("[data-place-close]")
