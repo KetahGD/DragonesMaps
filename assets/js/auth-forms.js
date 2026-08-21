@@ -22,7 +22,7 @@ function obtenerDestinoSeguro() {
   const continuar = new URLSearchParams(window.location.search).get("continuar");
   if (!continuar) return "index.html";
   const destino = continuar.replace(/^\.\//, "");
-  return /^(?:index|Inicio|calendario|directorio|organizador)\.html(?:[?#].*)?$/.test(destino)
+  return /^(?:index|Inicio|calendario|directorio|directorio-academico|organizador|perfil)\.html(?:[?#].*)?$/.test(destino)
     ? destino
     : "index.html";
 }
@@ -62,6 +62,10 @@ if (formulario) {
       const destino = obtenerDestinoSeguro();
       mostrarEstado(destino.startsWith("organizador.html")
         ? "Acceso correcto. Abriendo tu organizador…"
+        : destino.startsWith("perfil.html")
+          ? "Acceso correcto. Abriendo tu perfil…"
+          : destino.startsWith("directorio-academico.html")
+            ? "Acceso correcto. Abriendo el directorio…"
         : destino.startsWith("Inicio.html")
           ? "Acceso correcto. Abriendo tus preferencias…"
           : "Acceso correcto. Abriendo el mapa…", "success");

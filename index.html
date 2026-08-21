@@ -26,7 +26,7 @@
         </span>
         <span class="sr-only">Dragones Maps</span>
       </a>
-      <a class="icon-button profile-button" href="Inicio.html" aria-label="Cuenta y opciones de usuario">
+      <a class="icon-button profile-button" href="perfil.html" aria-label="Mi perfil">
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4.5 21a7.5 7.5 0 0 1 15 0"/></svg>
       </a>
     </div>
@@ -56,9 +56,17 @@
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4zM8 8h8M8 12h8M8 16h5"/></svg>
       <span>Directorio</span>
     </a>
+    <a class="side-menu__link" href="directorio-academico.html">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M3 20a6 6 0 0 1 12 0m2-11a3 3 0 0 1 0 6m1 2c2 0 3.5 1.2 4 3"/></svg>
+      <span>Directorio académico</span>
+    </a>
     <a class="side-menu__link" href="organizador.html">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3v3m12-3v3M4 9h16M5 5h14a1 1 0 0 1 1 1v14H4V6a1 1 0 0 1 1-1Z"/><path d="m8 14 2 2 5-5"/></svg>
       <span>Mi organizador</span>
+    </a>
+    <a class="side-menu__link" href="perfil.html">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4.5 21a7.5 7.5 0 0 1 15 0"/></svg>
+      <span>Mi perfil</span>
     </a>
     <a class="side-menu__link" href="Inicio.html">
       <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4.5 21a7.5 7.5 0 0 1 15 0"/></svg>
@@ -94,7 +102,7 @@
       <button class="icon-button place-panel__close" type="button" data-place-close aria-label="Cerrar información del lugar">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>
       </button>
-      <div class="place-panel__handle" aria-hidden="true"></div>
+      <div class="place-panel__handle" data-place-swipe-handle aria-hidden="true"></div>
       <img class="place-panel__image" data-place-image src="" alt="" width="720" height="420" decoding="async">
       <div class="place-panel__body">
         <span class="category-badge" data-place-category></span>
@@ -111,7 +119,7 @@
     </aside>
 
     <aside class="route-panel" data-route-panel aria-hidden="true" aria-labelledby="route-title" hidden>
-      <div class="route-panel__handle" aria-hidden="true"></div>
+      <div class="route-panel__handle" data-route-swipe-handle aria-hidden="true"></div>
       <header class="route-panel__header">
         <div><span>Guía del campus</span><h2 id="route-title">Ruta peatonal</h2></div>
         <button class="icon-button" type="button" data-route-close aria-label="Cerrar planificador de ruta">
@@ -156,6 +164,6 @@
   <div class="toast-container" data-toast-container aria-live="polite"></div>
 
   <script src="vendor/leaflet/leaflet.js"></script>
-  <script type="module" src="assets/js/map.js?v=20260821-4"></script>
+  <script type="module" src="assets/js/map.js?v=20260821-5"></script>
 </body>
 </html>

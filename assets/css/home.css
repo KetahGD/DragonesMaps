@@ -58,6 +58,7 @@
 .session-card strong { color: var(--green-900); }
 .session-card__organizer { width: max-content; margin-top: 5px; color: var(--green-700); font-size: 12px; font-weight: 800; text-decoration: none; }
 .session-card__organizer:hover { text-decoration: underline; }
+.session-card__links { display: flex !important; flex-wrap: wrap; gap: 5px 14px; overflow: visible !important; }
 .session-card .form-status { grid-column: 1 / -1; }
 
 .notification-settings {
