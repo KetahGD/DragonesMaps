@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b6b3a">
+  <title>Dragones Maps | Calendario</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/app.css?v=20260820-3">
+  <link rel="stylesheet" href="assets/css/calendar.css?v=20260820-3">
+  <link rel="icon" type="image/x-icon" href="assets/images/branding/favicon.ico?v=20260820-2">
+</head>
+<body class="content-page">
+  <header class="top-bar">
+    <div class="top-bar__main">
+      <button class="icon-button" type="button" data-menu-button aria-label="Abrir menú" aria-controls="main-menu" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+      <a class="brand" href="index.html" aria-label="Dragones Maps"><span class="brand__images" aria-hidden="true"><img class="brand__symbol" src="assets/images/branding/dragon-logo-transparent.png" alt="" width="371" height="706"><span class="brand__text">DRAGONES MAPS</span></span><span class="sr-only">Dragones Maps</span></a>
+      <a class="icon-button profile-button" href="Inicio.html" aria-label="Cuenta"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4.5 21a7.5 7.5 0 0 1 15 0"/></svg></a>
+    </div>
+    <div class="map-search" data-search-root role="search">
+      <svg class="map-search__icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+      <label class="sr-only" for="calendar-search">Buscar lugar</label>
+      <input id="calendar-search" data-search-input type="search" placeholder="Buscar edificio o servicio…" autocomplete="off" role="combobox" aria-autocomplete="list" aria-controls="calendar-search-results" aria-expanded="false">
+      <div id="calendar-search-results" class="search-results" data-search-results role="listbox" hidden></div>
+    </div>
+  </header>
+
+  <nav id="main-menu" class="side-menu" data-menu-panel aria-label="Navegación principal" aria-hidden="true">
+    <div class="side-menu__header"><img class="side-menu__logo" src="assets/images/branding/dragon-logo-transparent.png" alt="" width="371" height="706"><div><img class="side-menu__wordmark" src="assets/images/branding/dragones-maps-transparent.png" alt="Dragones Maps" width="534" height="277"><small>Explora la UTFV</small></div></div>
+    <a class="side-menu__link" href="index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18-6 3V6l6-3 6 3 6-3v15l-6 3-6-3Zm0 0V3m6 18V6"/></svg><span>Mapa del campus</span></a>
+    <a class="side-menu__link is-current" href="calendario.html" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg><span>Calendario</span></a>
+    <a class="side-menu__link" href="directorio.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4zM8 8h8M8 12h8M8 16h5"/></svg><span>Directorio</span></a>
+    <a class="side-menu__link" href="Inicio.html"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4.5 21a7.5 7.5 0 0 1 15 0"/></svg><span>Mi cuenta</span></a>
+  </nav>
+  <button class="menu-overlay" type="button" data-menu-overlay aria-label="Cerrar menú" hidden></button>
+
+  <main class="calendar-main">
+    <header class="page-heading">
+      <div><p class="eyebrow">Información académica</p><h1>Calendario escolar 2026–2027</h1><p>Consulta fechas académicas, evaluaciones, inscripciones, vacaciones y suspensiones.</p></div>
+      <div class="page-heading__actions">
+        <a class="primary-button" href="Inicio.html#notificaciones"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9ZM10 21h4"/></svg>Configurar recordatorios</a>
+        <button class="secondary-button" type="button" data-calendar-print><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 8V3h10v5M7 17H5a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-2M7 14h10v7H7z"/></svg>Imprimir / guardar PDF</button>
+      </div>
+    </header>
+
+    <section class="calendar-toolbar" aria-label="Controles del calendario">
+      <label for="calendar-month">Ir a un mes</label>
+      <select id="calendar-month" data-calendar-month></select>
+      <button class="calendar-today" type="button" data-calendar-today>Ir al mes actual</button>
+    </section>
+
+    <section class="term-summary" data-term-summary aria-label="Resumen de cuatrimestres"></section>
+
+    <section class="calendar-grid" data-calendar-grid aria-label="Calendario escolar 2026-2027"></section>
+
+    <section class="calendar-detail" data-calendar-detail aria-live="polite">
+      <strong>Selecciona una fecha marcada</strong>
+      <span>Podrás consultar aquí todos los eventos correspondientes a ese día.</span>
+    </section>
+
+    <section class="calendar-legend-wrap" aria-labelledby="calendar-legend-title">
+      <div><p class="eyebrow">Simbología</p><h2 id="calendar-legend-title">Tipos de fecha</h2></div>
+      <div class="calendar-legend" data-calendar-legend></div>
+    </section>
+
+    <p class="calendar-note">Versión digital del calendario proporcionado. Se conservaron las fechas y categorías del documento actual.</p>
+  </main>
+
+  <script type="module" src="assets/js/site.js?v=20260820-3"></script>
+  <script type="module" src="assets/js/calendar.js?v=20260820-3"></script>
+</body>
+</html>
