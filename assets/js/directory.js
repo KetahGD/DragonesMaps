@@ -4,6 +4,8 @@ const search = document.querySelector("[data-admin-search]");
 const filters = document.querySelector("[data-admin-filters]");
 const list = document.querySelector("[data-admin-list]");
 const count = document.querySelector("[data-admin-count]");
+const toggle = document.querySelector("[data-admin-toggle]");
+const content = document.querySelector("[data-admin-content]");
 let activeArea = "all";
 
 function normalize(value) {
@@ -88,3 +90,12 @@ if (search && filters && list && count) {
   search.addEventListener("input", render);
   render();
 }
+
+toggle?.addEventListener("click", () => {
+  const open = toggle.getAttribute("aria-expanded") !== "true";
+  toggle.setAttribute("aria-expanded", String(open));
+  content.hidden = !open;
+  const title = toggle.querySelector("strong");
+  if (title) title.textContent = open ? "Ocultar contactos administrativos" : "Mostrar contactos administrativos";
+  if (open) window.setTimeout(() => search?.focus({ preventScroll: true }), 160);
+});
