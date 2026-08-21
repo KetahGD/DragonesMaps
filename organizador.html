@@ -6,6 +6,8 @@
   <meta name="theme-color" content="#0b6b3a">
   <meta name="description" content="Organizador personal de clases, tareas y eventos para estudiantes de la UTFV.">
   <title>Dragones Maps | Mi organizador</title>
+  <script src="assets/js/theme-init.js"></script>
+  <link rel="manifest" href="manifest.webmanifest">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
@@ -28,7 +30,7 @@
       <span data-top-name>Estudiante</span>
       <button class="secondary-button organizer-signout" type="button" data-sign-out>Cerrar sesión</button>
     </div>
-    <a class="icon-button organizer-profile" href="perfil.html" aria-label="Mi perfil">
+    <a class="icon-button organizer-profile" href="perfil.html" data-session-profile aria-label="Mi perfil">
       <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4.5 21a7.5 7.5 0 0 1 15 0"/></svg>
     </a>
   </header>
@@ -41,7 +43,6 @@
     <a class="side-menu__link" href="directorio-academico.html"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M3 20a6 6 0 0 1 12 0m2-11a3 3 0 0 1 0 6m1 2c2 0 3.5 1.2 4 3"/></svg><span>Directorio académico</span></a>
     <a class="side-menu__link is-current" href="organizador.html" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3v3m12-3v3M4 9h16M5 5h14a1 1 0 0 1 1 1v14H4V6a1 1 0 0 1 1-1Z"/><path d="m8 14 2 2 5-5"/></svg><span>Mi organizador</span></a>
     <a class="side-menu__link" href="perfil.html"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4.5 21a7.5 7.5 0 0 1 15 0"/></svg><span>Mi perfil</span></a>
-    <a class="side-menu__link" href="Inicio.html"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4.5 21a7.5 7.5 0 0 1 15 0"/></svg><span>Mi cuenta</span></a>
   </nav>
   <button class="menu-overlay" type="button" data-menu-overlay aria-label="Cerrar menú" hidden></button>
 

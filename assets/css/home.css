@@ -11,6 +11,8 @@
   border-bottom: 1px solid var(--border);
   backdrop-filter: blur(12px);
 }
+.simple-header__actions { display: flex; align-items: center; gap: 8px; }
+.simple-header__actions .profile-button { position: relative; inset: auto; }
 
 .simple-header__map svg, .simple-link svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.8; }
 .simple-link { color: var(--green-700); font-size: 14px; font-weight: 700; text-decoration: none; }
@@ -120,6 +122,8 @@
 }
 
 @media (max-width: 520px) {
+  .simple-header__actions .simple-header__map { width: 42px; padding: 0; font-size: 0; }
+  .simple-header__actions .simple-header__map svg { display: block; }
   .simple-header .brand__mark { display: none; }
   .landing-visual img { width: 104px; }
   .landing-search input { height: 54px; }

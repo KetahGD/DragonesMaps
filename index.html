@@ -6,6 +6,8 @@
   <meta name="theme-color" content="#0b6b3a">
   <meta name="description" content="Mapa interactivo del campus de la Universidad Tecnológica Fidel Velázquez.">
   <title>Dragones Maps | Mapa del campus</title>
+  <script src="assets/js/theme-init.js"></script>
+  <link rel="manifest" href="manifest.webmanifest">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
@@ -26,7 +28,7 @@
         </span>
         <span class="sr-only">Dragones Maps</span>
       </a>
-      <a class="icon-button profile-button" href="perfil.html" aria-label="Mi perfil">
+      <a class="icon-button profile-button" href="perfil.html" data-session-profile aria-label="Mi perfil">
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4.5 21a7.5 7.5 0 0 1 15 0"/></svg>
       </a>
     </div>
@@ -68,10 +70,6 @@
       <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4.5 21a7.5 7.5 0 0 1 15 0"/></svg>
       <span>Mi perfil</span>
     </a>
-    <a class="side-menu__link" href="Inicio.html">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4.5 21a7.5 7.5 0 0 1 15 0"/></svg>
-      <span>Mi cuenta</span>
-    </a>
     <p class="side-menu__note">La información de algunos espacios continúa en actualización.</p>
   </nav>
   <button class="menu-overlay" type="button" data-menu-overlay aria-label="Cerrar menú" hidden></button>
@@ -102,19 +100,22 @@
       <button class="icon-button place-panel__close" type="button" data-place-close aria-label="Cerrar información del lugar">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>
       </button>
-      <div class="place-panel__handle" data-place-swipe-handle aria-hidden="true"></div>
+      <button class="place-panel__handle" type="button" data-place-swipe-handle aria-label="Expandir información del lugar" aria-expanded="false"><span class="sr-only">Expandir información</span></button>
       <img class="place-panel__image" data-place-image src="" alt="" width="720" height="420" decoding="async">
       <div class="place-panel__body">
-        <span class="category-badge" data-place-category></span>
         <h1 id="place-title" data-place-title></h1>
-        <p class="place-panel__official" data-place-official hidden></p>
-        <p class="place-panel__summary" data-place-summary></p>
-        <button class="secondary-button place-panel__route" type="button" data-route-to>
-          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="18" r="2"/><circle cx="18" cy="6" r="2"/><path d="M8 18h3a2 2 0 0 0 2-2v-8a2 2 0 0 1 2-2h3"/></svg>
-          <span>Cómo llegar</span>
-        </button>
-        <div data-place-sections></div>
-        <div class="panorama-buttons" data-place-panoramas hidden></div>
+        <p class="place-panel__swipe-hint">Desliza hacia arriba para ver más información</p>
+        <div class="place-panel__details" data-place-details>
+          <span class="category-badge" data-place-category></span>
+          <p class="place-panel__official" data-place-official hidden></p>
+          <p class="place-panel__summary" data-place-summary></p>
+          <button class="secondary-button place-panel__route" type="button" data-route-to>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="18" r="2"/><circle cx="18" cy="6" r="2"/><path d="M8 18h3a2 2 0 0 0 2-2v-8a2 2 0 0 1 2-2h3"/></svg>
+            <span>Cómo llegar</span>
+          </button>
+          <div data-place-sections></div>
+          <div class="panorama-buttons" data-place-panoramas hidden></div>
+        </div>
       </div>
     </aside>
 
