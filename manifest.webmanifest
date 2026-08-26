@@ -1,7 +1,7 @@
 {
   "name": "Dragones Maps - Explora la UTFV",
   "short_name": "Dragones Maps",
-  "description": "Mapa, calendario, directorio y organizador estudiantil de la UTFV.",
+  "description": "Mapa, calendario, directorio, recordatorios y organizador local de la UTFV.",
   "lang": "es-MX",
   "start_url": "./Inicio.html",
   "scope": "./",
@@ -19,7 +19,7 @@
   ],
   "shortcuts": [
     { "name": "Mapa del campus", "url": "./index.html" },
-    { "name": "Mi organizador", "url": "./organizador.html" },
+    { "name": "Organizador local", "url": "./organizador.html" },
     { "name": "Calendario", "url": "./calendario.html" }
   ]
 }

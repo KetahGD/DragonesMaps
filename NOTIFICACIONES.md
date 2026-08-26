@@ -1,36 +1,38 @@
-# Recordatorios académicos con Supabase y Web Push
+# Recordatorios académicos locales
 
-El sistema está configurado en el proyecto Supabase `DragonesMaps`. No necesita Firebase ni una cuenta de facturación de Google.
+El sistema funciona sin registro, inicio de sesión, base de datos de usuarios ni servicios push externos.
 
 ## Qué incluye
 
-- Consentimiento explícito desde `Inicio.html#notificaciones`.
-- Preferencias por categoría y anticipación (7, 3, 1 o 0 días).
-- Registro individual de cada navegador en `public.push_subscriptions`.
-- Recepción en primer plano y en segundo plano mediante `push-sw.js`.
-- Función `send-academic-reminders`, ejecutada diariamente a las 08:00, hora de Ciudad de México.
-- Eliminación de suscripciones inválidas y registro de entregas para evitar duplicados.
-- Avisos locales para visitantes que todavía no han iniciado sesión.
+- Campana con fechas en curso y próximas en las páginas principales.
+- Preferencias por categoría y anticipación: 7, 3, 1 o 0 días.
+- Guardado exclusivo en el navegador del dispositivo.
+- Aviso discreto dentro de la aplicación una vez al día.
+- Notificaciones del sistema opcionales cuando la página se abre, vuelve al primer plano o permanece activa.
+- Funcionamiento offline para páginas y recursos visitados.
+
+## Limitación del navegador
+
+Una aplicación web sin servidor push no puede garantizar avisos a una hora exacta cuando está totalmente cerrada. Dragones Maps comprueba los recordatorios al abrirse y durante su uso. Esta decisión evita almacenar identificadores del dispositivo o vincular avisos con una cuenta.
 
 ## Componentes
 
-- `supabase/migrations/20260821005339_migrate_firebase_to_supabase.sql`: tablas, datos del calendario, permisos y políticas RLS.
-- `supabase/migrations/20260821011200_schedule_academic_reminders.sql`: ejecución diaria con `pg_cron` y `pg_net`.
-- `supabase/functions/send-academic-reminders/index.ts`: selección y envío de recordatorios.
-- `assets/js/notifications.js`: consentimiento, preferencias y alta del dispositivo.
-- `push-sw.js`: presentación de notificaciones cuando la página está en segundo plano.
+- `assets/data/academic-reminders.js`: fuente de fechas.
+- `assets/js/reminder-preferences.js`: preferencias, filtros y control de avisos ya mostrados.
+- `assets/js/notifications.js`: formulario de configuración y permiso explícito.
+- `assets/js/local-notifications.js`: campana y notificaciones del sistema.
+- `push-sw.js`: caché offline y apertura del calendario al tocar un aviso.
 
-## Seguridad
+## Actualización del calendario
 
-- Las claves privadas están cifradas como secretos de Edge Functions y de Vault; nunca deben copiarse al JavaScript público.
-- Las tablas personales usan RLS por `auth.uid()`.
-- La función exige un JWT válido y un secreto adicional enviado únicamente por la tarea programada.
-- El permiso del navegador solo se solicita por una acción explícita del estudiante.
+1. Actualizar primero el calendario visible.
+2. Sincronizar las fechas relevantes en `assets/data/academic-reminders.js`.
+3. Verificar categorías, rangos y títulos.
+4. Probar al menos un evento temporal cercano cambiando la fecha únicamente en un entorno local.
+5. Confirmar que la campana y la configuración funcionen con permisos concedidos y denegados.
 
-## Verificación periódica
+## Privacidad
 
-1. Confirmar que la tarea `send-academic-reminders-daily` siga activa en **Integrations → Cron**.
-2. Revisar el historial de la tarea y los registros de la Edge Function si un envío falla.
-3. Comprobar que `calendar_events` contenga el calendario vigente antes de iniciar un nuevo ciclo escolar.
-4. Probar en HTTPS con una cuenta autorizada y un navegador compatible; los archivos abiertos directamente desde disco no pueden registrar un Service Worker.
-5. Rotar las claves Web Push únicamente si se pueden volver a registrar los dispositivos, ya que las suscripciones actuales dejarían de ser válidas.
+- El permiso de notificaciones se solicita solo al pulsar **Activar recordatorios**.
+- No se registra una suscripción push ni un identificador de usuario.
+- Las preferencias se eliminan al borrar los datos del sitio.

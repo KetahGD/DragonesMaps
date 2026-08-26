@@ -1,4 +1,4 @@
-const CACHE_VERSION = "dragones-maps-v11";
+const CACHE_VERSION = "dragones-maps-v12";
 const APP_CACHE = `${CACHE_VERSION}-app`;
 const RUNTIME_CACHE = `${CACHE_VERSION}-runtime`;
 const TILE_CACHE = `${CACHE_VERSION}-tiles`;
@@ -7,42 +7,30 @@ const APP_SHELL = [
   "./index.html",
   "./calendario.html",
   "./directorio.html",
-  "./directorio-academico.html",
   "./organizador.html",
-  "./perfil.html",
-  "./InicioIniciarSesion.html",
-  "./InicioCrearCuenta.html",
-  "./RestablecerPassword.html",
   "./sin-conexion.html",
   "./manifest.webmanifest",
   "./assets/css/app.css",
   "./assets/css/home.css",
-  "./assets/css/auth.css",
   "./assets/css/calendar.css",
   "./assets/css/directory.css",
-  "./assets/css/academic-directory.css",
   "./assets/css/organizer.css",
-  "./assets/css/profile.css",
   "./assets/js/site.js",
   "./assets/js/toast.js",
   "./assets/js/theme-init.js",
   "./assets/js/theme.js",
-  "./assets/js/session-ui.js",
   "./assets/js/offline.js",
   "./assets/js/local-notifications.js",
+  "./assets/js/reminder-preferences.js",
+  "./assets/js/notifications.js",
   "./assets/js/search.js",
-  "./assets/js/auth.js",
-  "./assets/js/supabase.js",
   "./assets/js/map.js",
   "./assets/js/bottom-sheets.js",
   "./assets/js/routing.js",
   "./assets/js/panorama.js",
   "./assets/js/calendar.js",
   "./assets/js/directory.js",
-  "./assets/js/academic-directory.js",
   "./assets/js/organizer.js",
-  "./assets/js/profile.js",
-  "./assets/js/notifications.js",
   "./assets/data/places.js",
   "./assets/data/careers.js",
   "./assets/data/academic-reminders.js",
@@ -122,29 +110,6 @@ self.addEventListener("fetch", (event) => {
 
 self.addEventListener("message", (event) => {
   if (event.data === "SKIP_WAITING") self.skipWaiting();
-});
-
-self.addEventListener("push", (event) => {
-  let data = {};
-  try {
-    data = event.data?.json() ?? {};
-  } catch {
-    data = { body: event.data?.text() };
-  }
-
-  const title = data.title || "Recordatorio académico";
-  const options = {
-    body: data.body || "Hay una fecha importante próxima en el calendario.",
-    icon: new URL("assets/images/branding/dragon-logo-transparent.png", self.registration.scope).href,
-    badge: new URL("assets/images/branding/favicon.ico", self.registration.scope).href,
-    tag: data.eventId || "recordatorio-academico",
-    renotify: false,
-    data: {
-      url: data.url || "calendario.html",
-      eventId: data.eventId || ""
-    }
-  };
-  event.waitUntil(self.registration.showNotification(title, options));
 });
 
 self.addEventListener("notificationclick", (event) => {

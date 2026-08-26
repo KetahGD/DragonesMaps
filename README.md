@@ -1,6 +1,8 @@
 # Dragones Maps
 
-Mapa web público para orientarse dentro del campus de la Universidad Tecnológica Fidel Velázquez. Incluye búsqueda tolerante a acentos, filtros por categoría, fichas oficiales, ubicación opcional, panorámicas propias, calendario, directorio, cuentas opcionales y recordatorios académicos locales y con Supabase.
+Mapa web público para orientarse dentro del campus de la Universidad Tecnológica Fidel Velázquez. Incluye búsqueda tolerante a acentos, filtros por categoría, fichas oficiales, ubicación opcional, panorámicas propias, calendario, directorio, recordatorios locales y un organizador que permanece en el dispositivo.
+
+La aplicación no tiene registro, inicio de sesión, perfiles ni sincronización de datos personales.
 
 ## Ejecutar localmente
 
@@ -16,52 +18,35 @@ Después visita `http://127.0.0.1:4173/`.
 
 ```text
 Dragones-Maps-main/
-├─ index.html                     Mapa principal
-├─ Inicio.html                    Portada y estado de sesión
-├─ InicioIniciarSesion.html       Acceso
-├─ InicioCrearCuenta.html         Registro
-├─ RestablecerPassword.html       Nueva contraseña después de recuperar la cuenta
-├─ calendario.html
-├─ directorio.html
-├─ push-sw.js                     Recepción Web Push en segundo plano
-├─ NOTIFICACIONES.md              Operación de los recordatorios
-├─ supabase/
-│  ├─ migrations/                 Tablas, RLS, calendario y tarea diaria
-│  └─ functions/                  Envío seguro de Web Push
+├─ Inicio.html                    Portada y preferencias locales
+├─ index.html                    Mapa principal
+├─ calendario.html               Calendario escolar adaptable
+├─ directorio.html               Directorio y accesos útiles
+├─ organizador.html              Horarios, tareas y eventos locales
+├─ push-sw.js                    Modo offline y avisos del dispositivo
+├─ NOTIFICACIONES.md             Funcionamiento de los recordatorios
 ├─ assets/
-│  ├─ css/                        Estilos por sección
-│  ├─ data/places.js              Fuente central de lugares
-│  ├─ js/                         Mapa, búsqueda, cuenta y componentes
-│  └─ images/
-│     ├─ branding/                Logotipos e icono oficial
-│     ├─ panoramas/               Panorámicas públicas identificadas
-│     ├─ places/                  Originales y fotografías WebP
-│     └─ archive/                 Panorámicas y calendarios anteriores conservados
-└─ vendor/                        Leaflet y Pannellum locales
+│  ├─ css/                       Estilos por sección
+│  ├─ data/                      Lugares, directorio y fechas académicas
+│  ├─ js/                        Interfaz, mapa y funciones locales
+│  └─ images/                    Identidad, fotografías y panorámicas
+└─ vendor/                       Leaflet y Pannellum locales
 ```
 
-Los HTML permanecen en la raíz para conservar enlaces simples y compatibilidad con GitHub Pages. `InicioInciarSesion.html` solo mantiene compatibilidad con la dirección antigua mal escrita y redirige al archivo correcto.
+## Privacidad y almacenamiento
 
-## Lugares y panorámicas
+- No se solicitan ni almacenan correos, contraseñas, nombres o fotografías de perfil.
+- Las preferencias de recordatorios se guardan en `localStorage`.
+- El horario, las tareas y los eventos del organizador se guardan en `localStorage`.
+- Borrar los datos del sitio o cambiar de dispositivo elimina esos datos; no existe copia en la nube.
+- La ubicación se solicita únicamente al pulsar **Mi ubicación** y no se conserva.
 
-`assets/data/places.js` contiene 26 ubicaciones públicas. Los edificios C a P usan los nombres oficiales proporcionados, junto con alias cortos para búsqueda. Centro de Investigación se unificó con CCAI; Biblioteca, Canchas, CCAI, Rectoría, Salones de Idiomas, La Velaria y la conexión D–E ya están georreferenciados.
+## Recordatorios
 
-Las 23 vistas panorámicas disponibles se encuentran en `assets/images/panoramas`. Cuando un lugar tiene más de una vista, la ficha muestra un botón para cada una. Las versiones sustituidas se conservan en `assets/images/archive` y no se cargan públicamente.
+La campana muestra periodos en curso y fechas próximas sin pedir permisos. Si el estudiante activa los avisos del sistema, la aplicación revisa las fechas al abrirse, al volver al primer plano y mientras permanece activa. Los navegadores no garantizan ejecución programada cuando una aplicación web está completamente cerrada; por eso el calendario y la campana siguen siendo la referencia principal.
 
-El calendario escolar 2026–2027 se genera como HTML adaptable desde `assets/js/calendar.js`. Las tres imágenes anteriores se conservan únicamente en `assets/images/archive/calendars-old`.
-
-## Supabase
-
-La aplicación usa Supabase Auth por correo y contraseña. El perfil mínimo se guarda en `public.profiles` y contiene `nombre`, `correo` y las fechas de creación y actualización. Las contraseñas se administran exclusivamente mediante Supabase Auth.
-
-Todas las tablas personales tienen Row Level Security. Cada estudiante solo puede consultar o cambiar su perfil, preferencias y dispositivos. El calendario es público y solo el servidor puede modificarlo.
-
-Los recordatorios automáticos son optativos. La app solicita permiso únicamente al pulsar **Activar recordatorios**, registra la suscripción Web Push y conserva preferencias por categoría y anticipación. La Edge Function `send-academic-reminders` se ejecuta diariamente a las 08:00, hora de Ciudad de México, mediante Supabase Cron.
-
-La campana también muestra a cualquier visitante los periodos en curso y las fechas de los siguientes 30 días. Estos avisos locales no requieren cuenta ni permisos y muestran una alerta discreta una vez al día por dispositivo. Su fuente se encuentra en `assets/data/academic-reminders.js`.
-
-Los valores privados de Web Push y de la tarea programada están cifrados en Supabase y no se guardan en el repositorio. Consulta `NOTIFICACIONES.md` para mantenimiento y verificación.
+La fuente local de fechas es `assets/data/academic-reminders.js`. Consulta `NOTIFICACIONES.md` para actualizarla y verificarla.
 
 ## Tecnologías
 
-HTML, CSS y JavaScript; Leaflet 1.9.4 con OpenStreetMap; Pannellum 2.5.7; Supabase JavaScript 2.112.3; Web Push estándar.
+HTML, CSS y JavaScript; Leaflet 1.9.4 con OpenStreetMap; Pannellum 2.5.7; Service Worker, Notification API y almacenamiento local del navegador.

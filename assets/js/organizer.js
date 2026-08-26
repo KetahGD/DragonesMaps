@@ -1,15 +1,10 @@
-import { cerrarSesion, iniciarSesionConGoogle } from "./auth.js";
-import { supabase } from "./supabase.js";
-
 const DAYS = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"];
 const PRIORITIES = { low: "Baja", medium: "Media", high: "Alta" };
-const state = { user: null, schedule: [], tasks: [], events: [], tab: "schedule" };
+const STORAGE_KEY = "dragonesmaps.organizer.v1";
+const TABLE_KEYS = { student_schedule_items: "schedule", student_tasks: "tasks", student_events: "events" };
+const state = { schedule: [], tasks: [], events: [], tab: "schedule" };
 
-const loading = document.querySelector("[data-loading]");
-const gate = document.querySelector("[data-auth-gate]");
 const app = document.querySelector("[data-organizer-app]");
-const topAccount = document.querySelector("[data-top-account]");
-const topName = document.querySelector("[data-top-name]");
 const toast = document.querySelector("[data-toast]");
 const scheduleDialog = document.querySelector("[data-schedule-dialog]");
 const taskDialog = document.querySelector("[data-task-dialog]");
@@ -18,6 +13,10 @@ const scheduleForm = document.querySelector("[data-schedule-form]");
 const taskForm = document.querySelector("[data-task-form]");
 const eventForm = document.querySelector("[data-event-form]");
 let toastTimer;
+
+function createId() {
+  return crypto.randomUUID?.() || `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+}
 
 function showToast(message, type = "success") {
   window.clearTimeout(toastTimer);
@@ -53,10 +52,6 @@ function itemActions(kind, id) {
   actions.className = "item-actions";
   actions.append(actionButton("Editar", `edit-${kind}`, id), actionButton("Eliminar", `delete-${kind}`, id));
   return actions;
-}
-
-function displayName(user) {
-  return user?.user_metadata?.nombre || user?.user_metadata?.full_name || user?.user_metadata?.name || user?.email?.split("@")[0] || "Estudiante";
 }
 
 function formatDate(value, options = {}) {
@@ -104,18 +99,25 @@ function closeDialog(dialog) {
   if (dialog.open) dialog.close();
 }
 
-async function loadOrganizer() {
-  const [scheduleResult, tasksResult, eventsResult] = await Promise.all([
-    supabase.from("student_schedule_items").select("id,subject,teacher,room,day_of_week,start_time,end_time,color,notes").order("day_of_week").order("start_time"),
-    supabase.from("student_tasks").select("id,title,course,due_at,priority,status,notes,completed_at").order("due_at", { ascending: true, nullsFirst: false }),
-    supabase.from("student_events").select("id,title,starts_at,ends_at,location,notes,color").order("starts_at")
-  ]);
+function guardarOrganizador() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify({
+    schedule: state.schedule,
+    tasks: state.tasks,
+    events: state.events
+  }));
+}
 
-  const error = scheduleResult.error || tasksResult.error || eventsResult.error;
-  if (error) throw error;
-  state.schedule = scheduleResult.data ?? [];
-  state.tasks = tasksResult.data ?? [];
-  state.events = eventsResult.data ?? [];
+function loadOrganizer() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+    state.schedule = Array.isArray(saved.schedule) ? saved.schedule : [];
+    state.tasks = Array.isArray(saved.tasks) ? saved.tasks : [];
+    state.events = Array.isArray(saved.events) ? saved.events : [];
+  } catch {
+    state.schedule = [];
+    state.tasks = [];
+    state.events = [];
+  }
   renderAll();
 }
 
@@ -283,12 +285,17 @@ function openEvent(item) {
 }
 
 async function saveRecord(table, id, payload) {
-  const query = id
-    ? supabase.from(table).update(payload).eq("id", id)
-    : supabase.from(table).insert({ ...payload, user_id: state.user.id });
-  const { error } = await query;
-  if (error) throw error;
-  await loadOrganizer();
+  const key = TABLE_KEYS[table];
+  if (!key) throw new Error("Tipo de registro no reconocido.");
+  if (id) {
+    const index = state[key].findIndex((item) => item.id === id);
+    if (index < 0) throw new Error("El elemento ya no existe.");
+    state[key][index] = { ...state[key][index], ...payload };
+  } else {
+    state[key].push({ ...payload, id: createId() });
+  }
+  guardarOrganizador();
+  renderAll();
 }
 
 scheduleForm.addEventListener("submit", async (event) => {
@@ -343,12 +350,12 @@ eventForm.addEventListener("submit", async (event) => {
 });
 
 async function deleteRecord(kind, id) {
-  const labels = { schedule: ["esta clase", "student_schedule_items"], task: ["esta tarea", "student_tasks"], event: ["este evento", "student_events"] };
-  const [label, table] = labels[kind];
+  const labels = { schedule: ["esta clase", "schedule"], task: ["esta tarea", "tasks"], event: ["este evento", "events"] };
+  const [label, key] = labels[kind];
   if (!window.confirm(`¿Quieres eliminar ${label}?`)) return;
-  const { error } = await supabase.from(table).delete().eq("id", id);
-  if (error) { showToast(error.message || "No fue posible eliminar el elemento.", "error"); return; }
-  await loadOrganizer();
+  state[key] = state[key].filter((item) => item.id !== id);
+  guardarOrganizador();
+  renderAll();
   showToast("Elemento eliminado.");
 }
 
@@ -374,14 +381,12 @@ document.querySelector("[data-task-list]").addEventListener("change", async (eve
   if (!checkbox) return;
   checkbox.disabled = true;
   const completed = checkbox.checked;
-  const { error } = await supabase.from("student_tasks").update({ status: completed ? "completed" : "pending", completed_at: completed ? new Date().toISOString() : null }).eq("id", checkbox.dataset.id);
-  if (error) {
-    checkbox.checked = !completed;
-    checkbox.disabled = false;
-    showToast(error.message || "No fue posible actualizar la tarea.", "error");
-    return;
-  }
-  await loadOrganizer();
+  const task = state.tasks.find((item) => item.id === checkbox.dataset.id);
+  if (!task) return;
+  task.status = completed ? "completed" : "pending";
+  task.completed_at = completed ? new Date().toISOString() : null;
+  guardarOrganizador();
+  renderAll();
   showToast(completed ? "Tarea completada." : "Tarea marcada como pendiente.");
 });
 
@@ -431,7 +436,7 @@ function scheduleFromCsv(content) {
       return;
     }
     const candidateColor = row[column("color")];
-    valid.push({ user_id: state.user.id, subject, day_of_week: day, start_time: start, end_time: end, room: clean(row[column("aula")]), teacher: clean(row[column("docente")]), color: /^#[0-9a-f]{6}$/i.test(candidateColor) ? candidateColor : "#0b6b3a", notes: clean(row[column("notas")]) });
+    valid.push({ id: createId(), subject, day_of_week: day, start_time: start, end_time: end, room: clean(row[column("aula")]), teacher: clean(row[column("docente")]), color: /^#[0-9a-f]{6}$/i.test(candidateColor) ? candidateColor : "#0b6b3a", notes: clean(row[column("notas")]) });
   });
   if (!valid.length) throw new Error(`No se encontraron clases válidas${invalid.length ? `; revisa las filas ${invalid.join(", ")}` : ""}.`);
   return { valid, invalid };
@@ -445,9 +450,9 @@ document.querySelector("[data-import-file]").addEventListener("change", async (e
   if (file.size > 1024 * 1024) return showToast("El archivo CSV no debe superar 1 MB.", "error");
   try {
     const { valid, invalid } = scheduleFromCsv(await file.text());
-    const { error } = await supabase.from("student_schedule_items").insert(valid);
-    if (error) throw error;
-    await loadOrganizer();
+    state.schedule.push(...valid);
+    guardarOrganizador();
+    renderAll();
     showToast(`${valid.length} clase${valid.length === 1 ? " importada" : "s importadas"}${invalid.length ? `; se omitieron las filas ${invalid.join(", ")}` : ""}.`);
   } catch (error) { showToast(error.message || "No fue posible importar el archivo.", "error"); }
 });
@@ -462,48 +467,5 @@ document.querySelector("[data-download-template]").addEventListener("click", () 
   URL.revokeObjectURL(url);
 });
 
-document.querySelector("[data-google-signin]").addEventListener("click", async (event) => {
-  const button = event.currentTarget;
-  const message = document.querySelector("[data-gate-message]");
-  button.disabled = true;
-  button.querySelector("span").textContent = "Conectando con Google…";
-  try { await iniciarSesionConGoogle("organizador.html"); }
-  catch (error) {
-    message.textContent = error.message || "No fue posible iniciar sesión con Google.";
-    message.hidden = false;
-    button.disabled = false;
-    button.querySelector("span").textContent = "Continuar con Google";
-  }
-});
-
-document.querySelector("[data-sign-out]").addEventListener("click", async (event) => {
-  event.currentTarget.disabled = true;
-  try { await cerrarSesion(); window.location.reload(); }
-  catch (error) { showToast(error.message || "No fue posible cerrar la sesión.", "error"); event.currentTarget.disabled = false; }
-});
-
-async function setSession(user) {
-  state.user = user;
-  loading.hidden = true;
-  if (!user) {
-    gate.hidden = false;
-    app.hidden = true;
-    topAccount.hidden = true;
-    return;
-  }
-  gate.hidden = true;
-  app.hidden = false;
-  topAccount.hidden = false;
-  topName.textContent = displayName(user);
-  try { await loadOrganizer(); }
-  catch (error) {
-    showToast(error.message || "No fue posible cargar tu organizador.", "error");
-  }
-}
-
-const { data: sessionData } = await supabase.auth.getSession();
-await setSession(sessionData.session?.user ?? null);
-supabase.auth.onAuthStateChange((event, session) => {
-  if (event === "SIGNED_OUT") setSession(null);
-  if (event === "SIGNED_IN" && session?.user?.id !== state.user?.id) setSession(session.user);
-});
+app.hidden = false;
+loadOrganizer();

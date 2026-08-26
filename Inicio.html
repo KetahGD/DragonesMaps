@@ -22,7 +22,6 @@
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18-6 3V6l6-3 6 3 6-3v15l-6 3-6-3Zm0 0V3m6 18V6"/></svg>
         Abrir mapa
       </a>
-      <a class="icon-button profile-button" href="perfil.html" data-session-profile aria-label="Mi perfil"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4.5 21a7.5 7.5 0 0 1 15 0"/></svg></a>
     </div>
   </header>
 
@@ -44,21 +43,12 @@
           <div id="landing-search-results" class="search-results" data-search-results role="listbox" hidden></div>
         </div>
 
-        <div class="account-actions" data-guest-actions>
-          <a class="primary-button" href="InicioIniciarSesion.html">Iniciar sesión</a>
-          <a class="secondary-button" href="InicioCrearCuenta.html">Crear cuenta</a>
+        <div class="account-actions">
+          <a class="primary-button" href="index.html">Abrir mapa</a>
+          <a class="secondary-button" href="organizador.html">Organizador local</a>
         </div>
 
-        <section class="session-card" data-session-card hidden aria-label="Sesión activa">
-          <div class="session-card__avatar" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4.5 21a7.5 7.5 0 0 1 15 0"/></svg>
-          </div>
-          <div><small>Sesión activa</small><strong data-session-name></strong><span data-session-email></span><span class="session-card__links"><a class="session-card__organizer" href="perfil.html">Editar mi perfil</a><a class="session-card__organizer" href="organizador.html">Abrir organizador</a></span></div>
-          <button class="secondary-button" type="button" data-sign-out>Cerrar sesión</button>
-          <p class="form-status" data-session-status hidden></p>
-        </section>
-
-        <p class="account-note">La cuenta es opcional. Puedes consultar todo el mapa sin registrarte.</p>
+        <p class="account-note">No se requieren cuentas. Tus preferencias y tu organizador permanecen únicamente en este dispositivo.</p>
 
         <section id="notificaciones" class="notification-settings" data-notification-settings aria-labelledby="notification-title">
           <div class="notification-settings__heading">
@@ -68,17 +58,12 @@
             <div>
               <p class="eyebrow">Recordatorios académicos</p>
               <h2 id="notification-title">Recibe avisos de fechas importantes</h2>
-              <p>Elige qué periodos te interesan y con cuánta anticipación deseas recibir el aviso.</p>
+              <p>Elige qué periodos te interesan. Las preferencias se guardan solo en este dispositivo.</p>
             </div>
             <span class="notification-badge" data-notification-badge>Sin configurar</span>
           </div>
 
-          <div class="notification-guest" data-notification-guest>
-            <p>Inicia sesión para guardar tus preferencias y vincular este dispositivo.</p>
-            <a class="secondary-button" href="InicioIniciarSesion.html?continuar=Inicio.html%23notificaciones">Iniciar sesión</a>
-          </div>
-
-          <form class="notification-form" data-notification-form hidden>
+          <form class="notification-form" data-notification-form>
             <fieldset>
               <legend>Quiero recibir avisos sobre</legend>
               <div class="notification-options notification-options--categories">
@@ -103,11 +88,11 @@
               </div>
             </fieldset>
 
-            <p class="notification-status" data-notification-status role="status" aria-live="polite">Activa los recordatorios cuando termines de elegir.</p>
+            <p class="notification-status" data-notification-status role="status" aria-live="polite">Los avisos se comprueban al abrir la aplicación.</p>
             <div class="notification-actions">
               <button class="primary-button" type="button" data-notification-enable>Activar recordatorios</button>
               <button class="secondary-button" type="submit" data-notification-save>Guardar preferencias</button>
-              <button class="notification-disable" type="button" data-notification-disable hidden>Desactivar en este dispositivo</button>
+              <button class="notification-disable" type="button" data-notification-disable hidden>Desactivar avisos automáticos</button>
             </div>
           </form>
         </section>
@@ -115,8 +100,7 @@
     </section>
   </main>
 
-  <script type="module" src="assets/js/site.js?v=20260820-2"></script>
-  <script type="module" src="assets/js/home.js?v=20260821-1"></script>
-  <script type="module" src="assets/js/notifications.js?v=20260821-1"></script>
+  <script type="module" src="assets/js/site.js?v=20260825-1"></script>
+  <script type="module" src="assets/js/notifications.js?v=20260825-1"></script>
 </body>
 </html>

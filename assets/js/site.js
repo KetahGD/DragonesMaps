@@ -1,7 +1,6 @@
 import { configurarBusqueda } from "./search.js";
 import { configurarNotificacionesLocales } from "./local-notifications.js";
 import { configurarTema } from "./theme.js";
-import { configurarInterfazSesion } from "./session-ui.js";
 import { configurarModoOffline } from "./offline.js";
 import { mostrarToast } from "./toast.js";
 
@@ -87,6 +86,5 @@ configurarMenu();
 configurarBusquedaCompacta();
 configurarBuscadores();
 configurarTema();
-configurarInterfazSesion();
 configurarNotificacionesLocales(mostrarToast);
 configurarModoOffline(mostrarToast);

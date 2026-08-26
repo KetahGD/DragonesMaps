@@ -3,7 +3,7 @@ import { configurarBusqueda } from "./search.js";
 import { configurarVisorPanoramico } from "./panorama.js";
 import { configurarRutas } from "./routing.js";
 import { configureBottomSheets } from "./bottom-sheets.js";
-import { mostrarToast } from "./site.js?v=20260820-3";
+import { mostrarToast } from "./site.js?v=20260825-1";
 
 const CENTRO_CAMPUS = [19.61275, -99.34035];
 const ZOOM_INICIAL = 17;

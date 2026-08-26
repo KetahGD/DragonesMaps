@@ -1,19 +1,18 @@
-import { detectarUsuarioActivo } from "./auth.js";
-import { supabase } from "./supabase.js";
+import {
+  CATEGORIAS_RECORDATORIO,
+  cargarPreferenciasRecordatorios,
+  guardarPreferenciasRecordatorios
+} from "./reminder-preferences.js";
+import { comprobarNotificacionesSistema } from "./local-notifications.js";
 import { mostrarToast } from "./toast.js";
 
-const VAPID_PUBLIC_KEY = "BIqd8TfpSCV6DdSsf6cNFAhZGX0lJAP8u7b-bvqTCOLUhrWbDb735ZrmedJQCcrQVN9_oebOBOssgfkIMyxtWW8";
-const CATEGORIAS = ["evaluaciones", "cuatrimestres", "inscripciones", "vacaciones", "suspensiones", "becas", "servicioSocial", "estadias"];
-
 const panel = document.querySelector("[data-notification-settings]");
-const invitado = panel?.querySelector("[data-notification-guest]");
 const formulario = panel?.querySelector("[data-notification-form]");
 const estado = panel?.querySelector("[data-notification-status]");
 const distintivo = panel?.querySelector("[data-notification-badge]");
 const botonActivar = panel?.querySelector("[data-notification-enable]");
 const botonDesactivar = panel?.querySelector("[data-notification-disable]");
-
-let usuarioActual = null;
+let preferenciasActuales = cargarPreferenciasRecordatorios();
 
 function cambiarEstado(mensaje, tipo = "info") {
   if (!estado) return;
@@ -27,246 +26,100 @@ function cambiarDistintivo(texto, tipo = "") {
   distintivo.className = `notification-badge${tipo ? ` is-${tipo}` : ""}`;
 }
 
-function mensajeErrorNotificacion(error) {
-  const detalle = `${error?.name || ""} ${error?.message || ""}`.toLowerCase();
-  if (detalle.includes("registration failed") || detalle.includes("push service error") || detalle.includes("aborterror")) {
-    return "El servicio de notificaciones del navegador no respondió. Actualiza el navegador, evita el modo incógnito y vuelve a intentarlo; en algunos teléfonos el servicio push puede no estar disponible temporalmente.";
-  }
-  if (detalle.includes("invalidstateerror")) {
-    return "El navegador no pudo preparar las notificaciones. Recarga la página y vuelve a intentarlo.";
-  }
-  if (detalle.includes("notallowederror") || detalle.includes("permission") || detalle.includes("permiso")) {
-    return "Las notificaciones están bloqueadas. Habilítalas desde los permisos del sitio y vuelve a intentarlo.";
-  }
-  return error?.message || "No fue posible activar los recordatorios en este dispositivo.";
-}
-
 function bloquearFormulario(bloqueado) {
-  formulario?.querySelectorAll("button, input").forEach((control) => {
-    control.disabled = bloqueado;
-  });
+  formulario?.querySelectorAll("button, input").forEach((control) => { control.disabled = bloqueado; });
 }
 
-function preferenciasSeleccionadas(active = false) {
-  const categories = CATEGORIAS.filter((categoria) => (
+function leerFormulario() {
+  const categories = CATEGORIAS_RECORDATORIO.filter((categoria) => (
     formulario?.querySelector(`input[name="categoria"][value="${categoria}"]`)?.checked
   ));
   const lead_days = [...(formulario?.querySelectorAll('input[name="anticipacion"]:checked') ?? [])]
     .map((control) => Number(control.value))
     .sort((a, b) => b - a);
-  return { active, categories, lead_days };
+  if (!categories.length) throw new Error("Selecciona al menos un tipo de fecha.");
+  if (!lead_days.length) throw new Error("Selecciona al menos una anticipación.");
+  return { categories, lead_days };
 }
 
 function aplicarPreferencias(preferencias) {
-  if (!formulario || !preferencias) return;
-  CATEGORIAS.forEach((categoria) => {
+  if (!formulario) return;
+  CATEGORIAS_RECORDATORIO.forEach((categoria) => {
     const control = formulario.querySelector(`input[name="categoria"][value="${categoria}"]`);
-    if (control) control.checked = preferencias.categories?.includes(categoria) ?? false;
+    if (control) control.checked = preferencias.categories.includes(categoria);
   });
   formulario.querySelectorAll('input[name="anticipacion"]').forEach((control) => {
-    control.checked = preferencias.lead_days?.includes(Number(control.value)) ?? false;
+    control.checked = preferencias.lead_days.includes(Number(control.value));
   });
 }
 
-function validarPreferencias(preferencias) {
-  if (!preferencias.categories.length) throw new Error("Selecciona al menos un tipo de fecha.");
-  if (!preferencias.lead_days.length) throw new Error("Selecciona al menos una anticipación.");
-}
-
-async function guardarPreferencias(active) {
-  if (!usuarioActual) throw new Error("Inicia sesión para guardar tus preferencias.");
-  const preferencias = preferenciasSeleccionadas(active);
-  validarPreferencias(preferencias);
-  const { error } = await supabase.from("notification_preferences").upsert({
-    user_id: usuarioActual.id,
-    ...preferencias
-  }, { onConflict: "user_id" });
-  if (error) throw error;
-  return preferencias;
-}
-
-function convertirClaveBase64(clave) {
-  const relleno = "=".repeat((4 - (clave.length % 4)) % 4);
-  const base64 = (clave + relleno).replace(/-/g, "+").replace(/_/g, "/");
-  return Uint8Array.from(atob(base64), (caracter) => caracter.charCodeAt(0));
-}
-
-async function obtenerRegistro() {
-  const serviceWorkerUrl = new URL("../../push-sw.js", import.meta.url);
-  const registro = await navigator.serviceWorker.register(serviceWorkerUrl, { scope: "./" });
-  await navigator.serviceWorker.ready;
-  return registro;
-}
-
-async function obtenerSuscripcion(crear = false) {
-  const registro = await obtenerRegistro();
-  let suscripcion = await registro.pushManager.getSubscription();
-  if (!suscripcion && crear) {
-    suscripcion = await registro.pushManager.subscribe({
-      userVisibleOnly: true,
-      applicationServerKey: convertirClaveBase64(VAPID_PUBLIC_KEY)
-    });
-  }
-  return suscripcion;
-}
-
-async function registrarDispositivo() {
-  if (!usuarioActual) throw new Error("Inicia sesión para vincular este dispositivo.");
-  const suscripcion = await obtenerSuscripcion(true);
-  const datos = suscripcion.toJSON();
-  if (!datos.endpoint || !datos.keys?.p256dh || !datos.keys?.auth) {
-    throw new Error("El navegador no devolvió una suscripción válida.");
-  }
-
-  const { error } = await supabase.from("push_subscriptions").upsert({
-    user_id: usuarioActual.id,
-    endpoint: datos.endpoint,
-    p256dh: datos.keys.p256dh,
-    auth_key: datos.keys.auth,
-    expiration_time: datos.expirationTime ?? null,
-    plataforma: navigator.userAgentData?.platform || navigator.platform || "Navegador web",
-    active: true
-  }, { onConflict: "user_id,endpoint" });
-  if (error) throw error;
-  return suscripcion;
-}
-
-export async function desvincularDispositivoActual() {
-  if (!usuarioActual || !window.isSecureContext || !("serviceWorker" in navigator)) return;
-  const suscripcion = await obtenerSuscripcion(false);
-  if (!suscripcion) return;
-
-  const { error } = await supabase.from("push_subscriptions")
-    .delete()
-    .eq("user_id", usuarioActual.id)
-    .eq("endpoint", suscripcion.endpoint);
-  if (error) throw error;
-  await suscripcion.unsubscribe();
-}
-
-async function activarNotificaciones() {
-  if (!usuarioActual) throw new Error("Inicia sesión para activar los recordatorios.");
-  if (!window.isSecureContext || !("serviceWorker" in navigator) || !("PushManager" in window) || !("Notification" in window)) {
-    throw new Error("Las notificaciones requieren HTTPS y un navegador compatible.");
-  }
-
-  const permiso = Notification.permission === "granted" ? "granted" : await Notification.requestPermission();
-  if (permiso !== "granted") {
-    cambiarDistintivo("Permiso bloqueado", "blocked");
-    throw new Error(permiso === "denied"
-      ? "El navegador bloqueó las notificaciones. Puedes habilitarlas desde los permisos del sitio."
-      : "No se concedió permiso para mostrar notificaciones.");
-  }
-
-  await registrarDispositivo();
-  await guardarPreferencias(true);
-  botonActivar.textContent = "Recordatorios activos";
-  botonDesactivar.hidden = false;
-  cambiarDistintivo("Activos", "active");
-  cambiarEstado("Este dispositivo recibirá avisos según las preferencias seleccionadas.", "success");
-}
-
-async function desactivarNotificaciones() {
-  if (!usuarioActual) return;
-  await desvincularDispositivoActual();
-  await guardarPreferencias(false);
-  botonActivar.textContent = "Activar recordatorios";
-  botonDesactivar.hidden = true;
-  cambiarDistintivo("Desactivados");
-  cambiarEstado("Los recordatorios se desactivaron en este dispositivo.");
-}
-
-async function cargarEstadoUsuario(usuario) {
-  usuarioActual = usuario;
-  invitado.hidden = Boolean(usuario);
-  formulario.hidden = !usuario;
-  if (!usuario) {
-    cambiarDistintivo("Requiere cuenta");
+function renderizarEstado() {
+  if (!preferenciasActuales.active) {
+    botonActivar.textContent = "Activar recordatorios";
+    botonDesactivar.hidden = true;
+    cambiarDistintivo("Listos sin cuenta");
+    cambiarEstado("Las fechas se mostrarán en la campana. Activa los avisos para recibirlos al abrir la aplicación.");
     return;
   }
 
-  cambiarEstado("Cargando tus preferencias…");
-  try {
-    const { data: preferencias, error } = await supabase.from("notification_preferences")
-      .select("active,categories,lead_days")
-      .eq("user_id", usuario.id)
-      .maybeSingle();
-    if (error) throw error;
-    aplicarPreferencias(preferencias);
+  botonActivar.textContent = "Recordatorios activos";
+  botonDesactivar.hidden = false;
+  cambiarDistintivo(preferenciasActuales.system ? "Avisos activos" : "Avisos en la app", "active");
+  cambiarEstado(preferenciasActuales.system
+    ? "El navegador mostrará avisos al abrir la aplicación o mientras permanezca activa."
+    : "Los recordatorios están activos dentro de Dragones Maps; el navegador no permite avisos del sistema.", "success");
+}
 
-    if (!window.isSecureContext || !("serviceWorker" in navigator) || !("PushManager" in window) || !("Notification" in window)) {
-      cambiarDistintivo("No compatible", "blocked");
-      cambiarEstado("Este navegador no admite notificaciones web o la página no usa HTTPS.", "error");
-      botonActivar.disabled = true;
-      return;
-    }
+function guardar({ active = preferenciasActuales.active, system = preferenciasActuales.system } = {}) {
+  preferenciasActuales = guardarPreferenciasRecordatorios({ ...leerFormulario(), active, system });
+  renderizarEstado();
+  return preferenciasActuales;
+}
 
-    if (Notification.permission === "denied") {
-      botonDesactivar.hidden = !preferencias?.active;
-      cambiarDistintivo("Permiso bloqueado", "blocked");
-      cambiarEstado("Las notificaciones están bloqueadas en este navegador. Revisa los permisos del sitio.", "error");
-      return;
-    }
-
-    if (preferencias?.active && Notification.permission === "granted") {
-      await registrarDispositivo();
-      botonActivar.textContent = "Recordatorios activos";
-      botonDesactivar.hidden = false;
-      cambiarDistintivo("Activos", "active");
-      cambiarEstado("Este dispositivo está listo para recibir recordatorios.", "success");
-    } else {
-      botonDesactivar.hidden = true;
-      cambiarDistintivo(preferencias ? "Preferencias guardadas" : "Sin configurar");
-      cambiarEstado(preferencias
-        ? "Tus preferencias están guardadas. Activa los recordatorios para vincular este dispositivo."
-        : "Activa los recordatorios cuando termines de elegir.");
-    }
-  } catch (error) {
-    console.error("No fue posible cargar las preferencias de notificaciones.", error);
-    cambiarEstado("No fue posible cargar las preferencias. Inténtalo nuevamente.", "error");
+async function activar() {
+  let system = false;
+  if (window.isSecureContext && "Notification" in window && "serviceWorker" in navigator) {
+    const permiso = Notification.permission === "granted" ? "granted" : await Notification.requestPermission();
+    system = permiso === "granted";
   }
+  guardar({ active: true, system });
+  await comprobarNotificacionesSistema();
 }
 
 botonActivar?.addEventListener("click", async () => {
   bloquearFormulario(true);
-  cambiarEstado("Preparando este dispositivo…");
+  cambiarEstado("Preparando los recordatorios de este dispositivo…");
   try {
-    await activarNotificaciones();
+    await activar();
+    mostrarToast("Recordatorios activados en este dispositivo.");
   } catch (error) {
-    console.error("No fue posible activar las notificaciones.", error);
-    cambiarEstado(mensajeErrorNotificacion(error), "error");
+    cambiarEstado(error.message || "No fue posible activar los recordatorios.", "error");
   } finally {
     bloquearFormulario(false);
   }
 });
 
-formulario?.addEventListener("submit", async (evento) => {
+formulario?.addEventListener("submit", (evento) => {
   evento.preventDefault();
-  bloquearFormulario(true);
   try {
-    const active = "Notification" in window && Notification.permission === "granted" && !botonDesactivar.hidden;
-    await guardarPreferencias(active);
-    cambiarEstado("Tus preferencias se guardaron correctamente.", "success");
-    mostrarToast("Preferencias de recordatorios guardadas.");
+    guardar();
+    mostrarToast("Preferencias guardadas en este dispositivo.");
   } catch (error) {
-    console.error("No fue posible guardar las preferencias de notificaciones.", error);
-    cambiarEstado(mensajeErrorNotificacion(error), "error");
-  } finally {
-    bloquearFormulario(false);
+    cambiarEstado(error.message, "error");
   }
 });
 
-botonDesactivar?.addEventListener("click", async () => {
-  bloquearFormulario(true);
-  cambiarEstado("Desactivando este dispositivo…");
+botonDesactivar?.addEventListener("click", () => {
   try {
-    await desactivarNotificaciones();
+    guardar({ active: false, system: false });
+    mostrarToast("Recordatorios automáticos desactivados.");
   } catch (error) {
-    console.error("No fue posible desactivar las notificaciones.", error);
-    cambiarEstado(mensajeErrorNotificacion(error), "error");
-  } finally {
-    bloquearFormulario(false);
+    cambiarEstado(error.message, "error");
   }
 });
 
-if (panel) detectarUsuarioActivo(cargarEstadoUsuario);
+if (panel) {
+  formulario.hidden = false;
+  aplicarPreferencias(preferenciasActuales);
+  renderizarEstado();
+}
