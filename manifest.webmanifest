@@ -1,0 +1,25 @@
+{
+  "name": "Dragones Maps - Explora la UTFV",
+  "short_name": "Dragones Maps",
+  "description": "Mapa, calendario, directorio, recordatorios y organizador local de la UTFV.",
+  "lang": "es-MX",
+  "start_url": "./Inicio.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f5f8f4",
+  "theme_color": "#0b6b3a",
+  "icons": [
+    {
+      "src": "assets/images/branding/favicon.ico",
+      "sizes": "256x256",
+      "type": "image/x-icon",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    { "name": "Mapa del campus", "url": "./index.html" },
+    { "name": "Organizador local", "url": "./organizador.html" },
+    { "name": "Calendario", "url": "./calendario.html" }
+  ]
+}

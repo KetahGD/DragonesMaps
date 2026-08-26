@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0b6b3a">
+  <meta name="description" content="Organizador local de clases, tareas y eventos para estudiantes de la UTFV.">
+  <title>Dragones Maps | Mi organizador</title>
+  <script src="assets/js/theme-init.js"></script>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/app.css?v=20260821-9">
+  <link rel="stylesheet" href="assets/css/organizer.css?v=20260821-2">
+  <link rel="icon" type="image/x-icon" href="assets/images/branding/favicon.ico?v=20260820-2">
+</head>
+<body class="content-page organizer-page">
+  <header class="organizer-topbar">
+    <div class="organizer-topbar__main">
+      <button class="icon-button" type="button" data-menu-button aria-label="Abrir menú" aria-controls="main-menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+      <a class="brand" href="index.html" aria-label="Dragones Maps">
+        <span class="brand__images" aria-hidden="true"><img class="brand__symbol" src="assets/images/branding/dragon-logo-transparent.png" alt="" width="371" height="706"><span class="brand__text">DRAGONES MAPS</span></span>
+        <span class="sr-only">Dragones Maps</span>
+      </a>
+    </div>
+  </header>
+
+  <nav id="main-menu" class="side-menu" data-menu-panel aria-label="Navegación principal" aria-hidden="true">
+    <div class="side-menu__header"><img class="side-menu__logo" src="assets/images/branding/dragon-logo-transparent.png" alt="" width="371" height="706"><div><img class="side-menu__wordmark" src="assets/images/branding/dragones-maps-transparent.png" alt="Dragones Maps" width="534" height="277"><small>Explora la UTFV</small></div></div>
+    <a class="side-menu__link" href="index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18-6 3V6l6-3 6 3 6-3v15l-6 3-6-3Zm0 0V3m6 18V6"/></svg><span>Mapa del campus</span></a>
+    <a class="side-menu__link" href="calendario.html"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg><span>Calendario</span></a>
+    <a class="side-menu__link" href="directorio.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4zM8 8h8M8 12h8M8 16h5"/></svg><span>Directorio</span></a>
+    <a class="side-menu__link is-current" href="organizador.html" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3v3m12-3v3M4 9h16M5 5h14a1 1 0 0 1 1 1v14H4V6a1 1 0 0 1 1-1Z"/><path d="m8 14 2 2 5-5"/></svg><span>Organizador local</span></a>
+  </nav>
+  <button class="menu-overlay" type="button" data-menu-overlay aria-label="Cerrar menú" hidden></button>
+
+  <main class="organizer-main">
+    <div class="organizer-app" data-organizer-app>
+      <header class="organizer-heading">
+        <div><p class="eyebrow">Guardado en este dispositivo</p><h1>Mi organizador</h1><p>Ten a la mano tus clases, entregas y compromisos. Esta información no se envía a ningún servidor.</p></div>
+        <button class="primary-button" type="button" data-quick-add>+ Agregar</button>
+      </header>
+
+      <section class="organizer-summary" aria-label="Resumen personal">
+        <article><span>Próxima clase</span><strong data-next-class>Sin clases próximas</strong><small data-next-class-detail>Agrega tu horario para comenzar</small></article>
+        <article><span>Tareas pendientes</span><strong data-pending-count>0</strong><small data-pending-detail>Todo al día</small></article>
+        <article><span>Próximo evento</span><strong data-next-event>Sin eventos próximos</strong><small data-next-event-detail>Agrega un compromiso</small></article>
+      </section>
+
+      <div class="organizer-tabs" role="tablist" aria-label="Secciones del organizador">
+        <button type="button" role="tab" aria-selected="true" aria-controls="schedule-panel" data-tab="schedule">Horario</button>
+        <button type="button" role="tab" aria-selected="false" aria-controls="tasks-panel" data-tab="tasks">Tareas <span data-tab-task-count>0</span></button>
+        <button type="button" role="tab" aria-selected="false" aria-controls="events-panel" data-tab="events">Eventos</button>
+      </div>
+
+      <section id="schedule-panel" class="organizer-panel" role="tabpanel" data-panel="schedule">
+        <div class="organizer-panel__heading">
+          <div><h2>Horario semanal</h2><p>Registra cada clase o importa varias desde un archivo CSV.</p></div>
+          <div class="organizer-actions">
+            <button class="secondary-button" type="button" data-download-template>Descargar plantilla</button>
+            <button class="secondary-button" type="button" data-import-trigger>Importar CSV</button>
+            <button class="primary-button" type="button" data-add-schedule>Agregar clase</button>
+            <input class="sr-only" type="file" accept=".csv,text/csv" data-import-file>
+          </div>
+        </div>
+        <div class="schedule-grid" data-schedule-grid aria-live="polite"></div>
+      </section>
+
+      <section id="tasks-panel" class="organizer-panel" role="tabpanel" data-panel="tasks" hidden>
+        <div class="organizer-panel__heading">
+          <div><h2>Tareas</h2><p>Prioriza entregas y marca lo que ya terminaste.</p></div>
+          <div class="organizer-actions">
+            <label class="organizer-filter">Mostrar <select data-task-filter><option value="pending">Pendientes</option><option value="all">Todas</option><option value="completed">Completadas</option></select></label>
+            <button class="primary-button" type="button" data-add-task>Agregar tarea</button>
+          </div>
+        </div>
+        <div class="organizer-list" data-task-list aria-live="polite"></div>
+      </section>
+
+      <section id="events-panel" class="organizer-panel" role="tabpanel" data-panel="events" hidden>
+        <div class="organizer-panel__heading">
+          <div><h2>Eventos personales</h2><p>Guarda asesorías, reuniones, actividades y compromisos.</p></div>
+          <button class="primary-button" type="button" data-add-event>Agregar evento</button>
+        </div>
+        <div class="organizer-list" data-event-list aria-live="polite"></div>
+      </section>
+    </div>
+  </main>
+
+  <dialog class="organizer-dialog" data-schedule-dialog aria-labelledby="schedule-dialog-title">
+    <form method="dialog" data-schedule-form>
+      <header><div><p class="eyebrow">Horario</p><h2 id="schedule-dialog-title" data-schedule-dialog-title>Agregar clase</h2></div><button class="dialog-close" type="button" data-dialog-close aria-label="Cerrar">×</button></header>
+      <input type="hidden" name="id">
+      <div class="form-grid">
+        <label class="form-field form-field--wide">Materia<input name="subject" maxlength="120" required autocomplete="off"></label>
+        <label class="form-field">Día<select name="day" required><option value="1">Lunes</option><option value="2">Martes</option><option value="3">Miércoles</option><option value="4">Jueves</option><option value="5">Viernes</option><option value="6">Sábado</option><option value="7">Domingo</option></select></label>
+        <label class="form-field">Color<input name="color" type="color" value="#0b6b3a" aria-label="Color de la materia"></label>
+        <label class="form-field">Hora de inicio<input name="start" type="time" required></label>
+        <label class="form-field">Hora de fin<input name="end" type="time" required></label>
+        <label class="form-field">Aula o edificio<input name="room" maxlength="80" autocomplete="off"></label>
+        <label class="form-field">Docente<input name="teacher" maxlength="120" autocomplete="off"></label>
+        <label class="form-field form-field--wide">Notas<textarea name="notes" maxlength="1000" rows="3"></textarea></label>
+      </div>
+      <p class="dialog-status" data-form-status role="status" hidden></p>
+      <footer><button class="secondary-button" type="button" data-dialog-close>Cancelar</button><button class="primary-button" type="submit">Guardar clase</button></footer>
+    </form>
+  </dialog>
+
+  <dialog class="organizer-dialog" data-task-dialog aria-labelledby="task-dialog-title">
+    <form method="dialog" data-task-form>
+      <header><div><p class="eyebrow">Tareas</p><h2 id="task-dialog-title" data-task-dialog-title>Agregar tarea</h2></div><button class="dialog-close" type="button" data-dialog-close aria-label="Cerrar">×</button></header>
+      <input type="hidden" name="id">
+      <div class="form-grid">
+        <label class="form-field form-field--wide">Tarea<input name="title" maxlength="160" required autocomplete="off"></label>
+        <label class="form-field">Materia<input name="course" maxlength="120" autocomplete="off"></label>
+        <label class="form-field">Fecha límite<input name="due" type="datetime-local"></label>
+        <label class="form-field">Prioridad<select name="priority"><option value="low">Baja</option><option value="medium" selected>Media</option><option value="high">Alta</option></select></label>
+        <label class="form-field">Estado<select name="status"><option value="pending">Pendiente</option><option value="completed">Completada</option></select></label>
+        <label class="form-field form-field--wide">Notas<textarea name="notes" maxlength="2000" rows="4"></textarea></label>
+      </div>
+      <p class="dialog-status" data-form-status role="status" hidden></p>
+      <footer><button class="secondary-button" type="button" data-dialog-close>Cancelar</button><button class="primary-button" type="submit">Guardar tarea</button></footer>
+    </form>
+  </dialog>
+
+  <dialog class="organizer-dialog" data-event-dialog aria-labelledby="event-dialog-title">
+    <form method="dialog" data-event-form>
+      <header><div><p class="eyebrow">Eventos</p><h2 id="event-dialog-title" data-event-dialog-title>Agregar evento</h2></div><button class="dialog-close" type="button" data-dialog-close aria-label="Cerrar">×</button></header>
+      <input type="hidden" name="id">
+      <div class="form-grid">
+        <label class="form-field form-field--wide">Nombre del evento<input name="title" maxlength="160" required autocomplete="off"></label>
+        <label class="form-field">Comienza<input name="start" type="datetime-local" required></label>
+        <label class="form-field">Termina<input name="end" type="datetime-local"></label>
+        <label class="form-field">Lugar<input name="location" maxlength="160" autocomplete="off"></label>
+        <label class="form-field">Color<input name="color" type="color" value="#287fa0" aria-label="Color del evento"></label>
+        <label class="form-field form-field--wide">Notas<textarea name="notes" maxlength="2000" rows="4"></textarea></label>
+      </div>
+      <p class="dialog-status" data-form-status role="status" hidden></p>
+      <footer><button class="secondary-button" type="button" data-dialog-close>Cancelar</button><button class="primary-button" type="submit">Guardar evento</button></footer>
+    </form>
+  </dialog>
+
+  <div class="organizer-toast" data-toast role="status" aria-live="polite" hidden></div>
+  <script type="module" src="assets/js/site.js?v=20260825-1"></script>
+  <script type="module" src="assets/js/organizer.js?v=20260825-1"></script>
+</body>
+</html>
