@@ -1,6 +1,6 @@
 import { configurarBusqueda } from "./search.js";
 import { configurarNotificacionesLocales } from "./local-notifications.js";
-import { configurarTema } from "./theme.js";
+import { configurarTema } from "./theme.js?v=20260827-1";
 import { configurarModoOffline } from "./offline.js";
 import { mostrarToast } from "./toast.js";
 

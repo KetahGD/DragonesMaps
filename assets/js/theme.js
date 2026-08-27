@@ -48,12 +48,14 @@ function ensureToggle() {
 
 function renderToggle(button) {
   const dark = currentTheme() === "dark";
+  const actionLabel = dark ? "Cambiar a modo claro" : "Cambiar a modo oscuro";
   button.setAttribute("aria-checked", String(dark));
-  button.setAttribute("aria-label", dark ? "Cambiar a modo claro" : "Cambiar a modo oscuro");
+  button.setAttribute("aria-label", actionLabel);
+  button.title = actionLabel;
   button.dataset.mode = dark ? "dark" : "light";
   const label = button.querySelector(".theme-toggle__label, .sr-only");
-  if (label) label.textContent = dark ? "Modo oscuro" : "Modo claro";
-  button.insertAdjacentHTML("afterbegin", dark ? moonIcon : sunIcon);
+  if (label) label.textContent = actionLabel;
+  button.insertAdjacentHTML("afterbegin", dark ? sunIcon : moonIcon);
   const icons = button.querySelectorAll(":scope > svg");
   icons.forEach((icon, index) => { if (index > 0) icon.remove(); });
   updateThemeColor(dark ? "dark" : "light");
