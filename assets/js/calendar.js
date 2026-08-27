@@ -1,4 +1,4 @@
-import { NIVELES_ACADEMICOS, edificiosPrincipales, obtenerProgramaPorId, obtenerProgramasPorNivel } from "../data/academic-reference.js";
+import { NIVELES_ACADEMICOS, edificiosPrincipales, obtenerProgramaPorId, obtenerProgramasPorNivel } from "../data/academic-reference.js?v=20260827-1";
 
 const ACADEMIC_REFERENCE_KEY = "dragonesmaps.academic-reference.v1";
 const MESES = Array.from({ length: 16 }, (_, indice) => ({
@@ -359,7 +359,10 @@ function actualizarResultadoAcademico() {
     resultadoAcademico.textContent = "Elige una carrera para consultar su edificio principal en el mapa.";
     return;
   }
-  resultadoAcademico.append(`Edificio principal de ${programa.nombre}: ${edificiosPrincipales[programa.edificioId] || "Información en actualización"}. `);
+  const edificio = edificiosPrincipales[programa.edificioId];
+  resultadoAcademico.append(`Edificio principal de ${programa.nombre}: ${edificio || "Información en actualización"}.`);
+  if (!edificio) return;
+  resultadoAcademico.append(" ");
   const enlace = document.createElement("a");
   enlace.href = `index.html?edificio=${encodeURIComponent(programa.edificioId)}`;
   enlace.textContent = "Ver en el mapa";

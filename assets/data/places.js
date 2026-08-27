@@ -24,7 +24,7 @@ const panorama = (slug, titulo) => ({
   titulo
 });
 
-import { obtenerProgramasPorEdificio } from "./academic-reference.js";
+import { obtenerProgramasPorEdificio } from "./academic-reference.js?v=20260827-1";
 
 export const lugares = [
   {
@@ -80,8 +80,11 @@ export const lugares = [
     categoria: "laboratorio",
     coordenadas: [19.612658550345884, -99.33923302928696],
     ...imagenLugar("edificio-e", "EdificioE.png"),
-    resumen: "Laboratorio Ing. Alejo Peralta para Mecatrónica y Mantenimiento Industrial.",
-    secciones: [{ titulo: "Áreas oficiales", items: ["Mecatrónica", "Mantenimiento Industrial"] }],
+    resumen: "Laboratorio de uso compartido para prácticas de Mecatrónica, Mantenimiento Industrial y otras carreras.",
+    secciones: [
+      { titulo: "Áreas oficiales", items: ["Mecatrónica", "Mantenimiento Industrial"] },
+      { titulo: "Uso académico", items: ["Laboratorio compartido por distintas carreras; no es el edificio principal de una carrera"] }
+    ],
     panoramas: [panorama("edificio-e", "Panorama del Edificio E")]
   },
   {
@@ -92,8 +95,11 @@ export const lugares = [
     categoria: "laboratorio",
     coordenadas: [19.6115459976567, -99.33884497301763],
     ...imagenLugar("edificio-f", "LaboratorioPesado.jpg"),
-    resumen: "Laboratorio Pesado de Ciencias de la Sustentabilidad.",
-    secciones: [{ titulo: "Referencia oficial", items: ["Ciencias de la Sustentabilidad"] }],
+    resumen: "Laboratorio Pesado de Ciencias de la Sustentabilidad utilizado por distintas carreras para prácticas académicas.",
+    secciones: [
+      { titulo: "Referencia oficial", items: ["Ciencias de la Sustentabilidad"] },
+      { titulo: "Uso académico", items: ["Laboratorio compartido; no es el edificio principal de una carrera"] }
+    ],
     panoramas: [panorama("edificio-f", "Panorama del Edificio F")]
   },
   {
@@ -181,13 +187,13 @@ export const lugares = [
   {
     id: "edificio-k",
     nombre: "Edificio K",
-    nombreOficial: "Aulas Telehática, Ambiental · Sistemas de Manufactura Flexible · Mantenimiento Industrial · Automotriz y Servicio Médico",
-    alias: ["Telehática", "Ambiental", "Manufactura Flexible", "Mantenimiento Industrial", "Automotriz", "Servicio Médico"],
+    nombreOficial: "Aulas Mecatrónica, Biotecnología y Ambiental · Sistemas de Manufactura Flexible · Mantenimiento Industrial · Automotriz y Servicio Médico",
+    alias: ["Mecatrónica", "Biotecnología", "Ambiental", "Manufactura Flexible", "Mantenimiento Industrial", "Automotriz", "Servicio Médico"],
     categoria: "edificio",
     coordenadas: [19.612345485457844, -99.34055844750884],
     ...imagenLugar("edificio-k", "EdificioK.jpg"),
     resumen: "Aulas y servicios de las áreas indicadas oficialmente para el Edificio K.",
-    secciones: [{ titulo: "Áreas oficiales", items: ["Telehática", "Ambiental", "Sistemas de Manufactura Flexible", "Mantenimiento Industrial", "Automotriz", "Servicio Médico"] }],
+    secciones: [{ titulo: "Áreas principales", items: ["Mecatrónica", "Biotecnología", "Ambiental", "Sistemas de Manufactura Flexible", "Mantenimiento Industrial", "Automotriz", "Servicio Médico"] }],
     panoramas: [panorama("edificio-k", "Panorama del Edificio K")]
   },
   {
@@ -198,20 +204,23 @@ export const lugares = [
     categoria: "laboratorio",
     coordenadas: [19.611967304478743, -99.33941718477618],
     ...imagenLugar("edificio-l", "EdificioL.jpg"),
-    resumen: "Laboratorio de Tecnología Gráfica y Automotriz.",
-    secciones: [{ titulo: "Áreas oficiales", items: ["Tecnología Gráfica", "Automotriz"] }],
+    resumen: "Laboratorio de Tecnología Gráfica y Automotriz utilizado por distintas carreras para prácticas académicas.",
+    secciones: [
+      { titulo: "Áreas oficiales", items: ["Tecnología Gráfica", "Automotriz"] },
+      { titulo: "Uso académico", items: ["Laboratorio compartido; no es el edificio principal de una carrera"] }
+    ],
     panoramas: [panorama("edificio-l", "Panorama del Edificio L")]
   },
   {
     id: "edificio-m",
     nombre: "Edificio M",
-    nombreOficial: "Estudio de Radio y TV · Redes Digitales",
-    alias: ["Radio", "TV", "Redes Digitales"],
+    nombreOficial: "Telemática y Ciencias de Datos · Estudio de Radio y TV · Redes Digitales",
+    alias: ["Telemática", "Ciencias de Datos", "Radio", "TV", "Redes Digitales"],
     categoria: "edificio",
     coordenadas: [19.61147603613746, -99.33906416943061],
     ...imagenLugar("edificio-m", "EdificioM.jpg"),
-    resumen: "Estudio de Radio y TV y área de Redes Digitales.",
-    secciones: [{ titulo: "Áreas oficiales", items: ["Estudio de Radio y TV", "Redes Digitales"] }],
+    resumen: "Aulas de Telemática y Ciencias de Datos, además del Estudio de Radio y TV y el área de Redes Digitales.",
+    secciones: [{ titulo: "Áreas principales", items: ["Telemática", "Ciencias de Datos", "Estudio de Radio y TV", "Redes Digitales"] }],
     panoramas: [panorama("edificio-m", "Panorama del Edificio M")]
   },
   {
@@ -344,7 +353,7 @@ const avisoSinCredencial = {
 
 lugares.forEach((lugar) => {
   const carreras = obtenerProgramasPorEdificio(lugar.id);
-  if (carreras.length) {
+  if (carreras.length && lugar.categoria !== "laboratorio") {
     lugar.secciones = [...(lugar.secciones ?? []), {
       titulo: "Carreras con edificio principal",
       items: carreras.map((carrera) => carrera.nombre)
