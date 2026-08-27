@@ -325,7 +325,7 @@ export const lugares = [
 
 const avisoSinCredencial = {
   tipo: "warning",
-  texto: "Si no cuentas con credencial escolar, descarga tu comprobante de pago y preséntalo junto con una identificación oficial con fotografía.",
+  texto: "Si no cuentas con credencial escolar, descarga tu voucher (comprobante) de pago y preséntalo junto con tu credencial de elector u otra identificación oficial con fotografía.",
   enlace: { texto: "Ir al portal de pagos", href: "https://pagosytramites.edomex.gob.mx/recaudacion/" }
 };
 
