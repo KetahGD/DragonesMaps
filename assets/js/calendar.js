@@ -1,3 +1,6 @@
+import { NIVELES_ACADEMICOS, edificiosPrincipales, obtenerProgramaPorId, obtenerProgramasPorNivel } from "../data/academic-reference.js";
+
+const ACADEMIC_REFERENCE_KEY = "dragonesmaps.academic-reference.v1";
 const MESES = Array.from({ length: 16 }, (_, indice) => ({
   anio: 2026 + Math.floor(indice / 12),
   mes: indice % 12
@@ -205,7 +208,11 @@ function crearMes({ anio, mes }) {
       boton.innerHTML = `<span class="calendar-day__number">${fecha.getDate()}</span>`;
       boton.disabled = tipos.length === 0;
 
-      if (clave === hoyClave) celda.classList.add("is-today");
+      if (clave === hoyClave) {
+        celda.classList.add("is-today");
+        boton.setAttribute("aria-current", "date");
+        boton.title = "Hoy";
+      }
       if (tipos.length) {
         celda.classList.add("has-events");
         const etiquetas = tipos.map((tipo) => EVENTOS[tipo].etiqueta);
@@ -286,3 +293,94 @@ document.querySelector("[data-calendar-print]").addEventListener("click", () => 
 
 const idMesActual = `mes-${hoy.getFullYear()}-${String(hoy.getMonth() + 1).padStart(2, "0")}`;
 if (document.getElementById(idMesActual)) selector.value = idMesActual;
+
+const fechaActual = document.querySelector("[data-calendar-current-date]");
+if (fechaActual) {
+  const texto = hoy.toLocaleDateString("es-MX", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
+  fechaActual.textContent = `Hoy: ${texto.charAt(0).toUpperCase()}${texto.slice(1)}`;
+}
+
+const nivelAcademico = document.querySelector("[data-academic-level]");
+const cuatrimestreAcademico = document.querySelector("[data-academic-term]");
+const programaAcademico = document.querySelector("[data-academic-program]");
+const resultadoAcademico = document.querySelector("[data-academic-result]");
+
+function leerReferenciaAcademica() {
+  try {
+    return JSON.parse(localStorage.getItem(ACADEMIC_REFERENCE_KEY)) || {};
+  } catch {
+    return {};
+  }
+}
+
+function guardarReferenciaAcademica() {
+  try {
+    localStorage.setItem(ACADEMIC_REFERENCE_KEY, JSON.stringify({
+      nivel: nivelAcademico.value,
+      cuatrimestre: cuatrimestreAcademico.value,
+      programa: programaAcademico.value
+    }));
+  } catch {
+    // La selección sigue funcionando aunque el navegador bloquee el almacenamiento local.
+  }
+}
+
+function poblarCuatrimestres(nivel, seleccionado = "") {
+  const configuracion = NIVELES_ACADEMICOS[nivel];
+  cuatrimestreAcademico.replaceChildren();
+  const inicial = new Option(configuracion ? "Selecciona un cuatrimestre" : "Primero selecciona el nivel", "");
+  cuatrimestreAcademico.add(inicial);
+  if (!configuracion) {
+    cuatrimestreAcademico.disabled = true;
+    return;
+  }
+  configuracion.cuatrimestres.forEach((numero) => cuatrimestreAcademico.add(new Option(`${numero}.º cuatrimestre`, String(numero))));
+  cuatrimestreAcademico.disabled = false;
+  if (configuracion.cuatrimestres.includes(Number(seleccionado))) cuatrimestreAcademico.value = String(seleccionado);
+}
+
+function poblarProgramas(nivel, seleccionado = "") {
+  const programas = obtenerProgramasPorNivel(nivel);
+  programaAcademico.replaceChildren();
+  programaAcademico.add(new Option(programas.length ? "Selecciona una carrera" : "Primero selecciona el nivel", ""));
+  programas.forEach((programa) => programaAcademico.add(new Option(programa.nombre, programa.id)));
+  programaAcademico.disabled = !programas.length;
+  if (programas.some((programa) => programa.id === seleccionado)) programaAcademico.value = seleccionado;
+}
+
+function actualizarResultadoAcademico() {
+  const programa = obtenerProgramaPorId(programaAcademico.value);
+  resultadoAcademico.replaceChildren();
+  if (!nivelAcademico.value) {
+    resultadoAcademico.textContent = "Selecciona tu nivel para ver los cuatrimestres y carreras correspondientes.";
+    return;
+  }
+  if (!programa) {
+    resultadoAcademico.textContent = "Elige una carrera para consultar su edificio principal en el mapa.";
+    return;
+  }
+  resultadoAcademico.append(`Edificio principal de ${programa.nombre}: ${edificiosPrincipales[programa.edificioId] || "Información en actualización"}. `);
+  const enlace = document.createElement("a");
+  enlace.href = `index.html?edificio=${encodeURIComponent(programa.edificioId)}`;
+  enlace.textContent = "Ver en el mapa";
+  resultadoAcademico.append(enlace);
+}
+
+function actualizarReferencia({ reiniciar = false } = {}) {
+  const nivel = nivelAcademico.value;
+  poblarCuatrimestres(nivel, reiniciar ? "" : cuatrimestreAcademico.value);
+  poblarProgramas(nivel, reiniciar ? "" : programaAcademico.value);
+  actualizarResultadoAcademico();
+  guardarReferenciaAcademica();
+}
+
+if (nivelAcademico && cuatrimestreAcademico && programaAcademico && resultadoAcademico) {
+  const referencia = leerReferenciaAcademica();
+  nivelAcademico.value = NIVELES_ACADEMICOS[referencia.nivel] ? referencia.nivel : "";
+  poblarCuatrimestres(nivelAcademico.value, referencia.cuatrimestre);
+  poblarProgramas(nivelAcademico.value, referencia.programa);
+  actualizarResultadoAcademico();
+  nivelAcademico.addEventListener("change", () => actualizarReferencia({ reiniciar: true }));
+  cuatrimestreAcademico.addEventListener("change", () => { guardarReferenciaAcademica(); actualizarResultadoAcademico(); });
+  programaAcademico.addEventListener("change", () => { guardarReferenciaAcademica(); actualizarResultadoAcademico(); });
+}

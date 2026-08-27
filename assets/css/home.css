@@ -51,10 +51,14 @@
 .account-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
 .account-note { margin: 16px 0 0; color: var(--muted); font-size: 12px; }
 
+.new-student-notice { max-width: 610px; margin: 0 0 22px; padding: 16px 18px; border: 1px solid rgba(183, 44, 86, .28); border-left: 5px solid #b72c56; border-radius: 14px; background: linear-gradient(135deg, #fff7f9, #fff); box-shadow: var(--shadow-sm); text-align: left; }
+.new-student-notice .eyebrow { margin-bottom: 5px; color: #9d2147; }
+.new-student-notice h2 { margin: 0; color: #74203b; font-family: var(--font-display); font-size: clamp(19px, 2.4vw, 25px); line-height: 1.2; }
+.new-student-notice p:last-child { margin: 8px 0 0; color: #5e4a50; font-size: 14px; line-height: 1.55; }
+
 .notification-settings {
   max-width: 610px;
   margin-top: 28px;
-  padding: clamp(18px, 3vw, 26px);
   scroll-margin-top: 24px;
   border: 1px solid var(--green-200);
   border-radius: 20px;
@@ -63,7 +67,14 @@
   text-align: left;
 }
 .notification-settings:target { box-shadow: 0 0 0 4px rgba(11, 107, 58, .12), var(--shadow-md); }
-.notification-settings__heading { display: grid; grid-template-columns: auto 1fr auto; align-items: start; gap: 14px; }
+.notification-settings__heading { display: grid; grid-template-columns: auto 1fr auto; align-items: start; gap: 14px; padding: clamp(18px, 3vw, 26px); list-style: none; cursor: pointer; }
+.notification-settings__heading::-webkit-details-marker { display: none; }
+.notification-settings__heading::marker { content: ""; }
+.notification-settings__content { padding: 0 clamp(18px, 3vw, 26px) clamp(18px, 3vw, 26px); }
+.notification-settings[open] .notification-settings__heading { border-bottom: 1px solid var(--border); }
+.notification-settings__toggle { align-self: center; padding: 7px 10px; border: 1px solid var(--green-300); border-radius: 999px; color: var(--green-800); font-size: 11px; font-weight: 800; }
+.notification-settings[open] .notification-settings__toggle { font-size: 0; }
+.notification-settings[open] .notification-settings__toggle::after { content: "Cerrar"; font-size: 11px; }
 .notification-settings__icon { display: grid; width: 48px; height: 48px; place-items: center; border-radius: 14px; background: var(--green-100); color: var(--green-700); }
 .notification-settings__icon svg { width: 25px; height: 25px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 .notification-settings__heading .eyebrow { margin-bottom: 4px; }
@@ -106,6 +117,7 @@
   .landing-search { margin-right: auto; margin-left: auto; text-align: left; }
   .account-actions { justify-content: center; }
   .account-note { text-align: center; }
+  .new-student-notice { margin-right: auto; margin-left: auto; }
   .notification-settings { margin-right: auto; margin-left: auto; }
 }
 
@@ -119,6 +131,7 @@
   .account-actions a { width: 100%; }
   .notification-settings__heading { grid-template-columns: auto 1fr; }
   .notification-badge { grid-column: 1 / -1; justify-self: start; }
+  .notification-settings__toggle { grid-column: 2; grid-row: 1; justify-self: end; }
   .notification-options--categories, .notification-options--days { grid-template-columns: 1fr; }
   .notification-guest, .notification-actions { align-items: stretch; flex-direction: column; }
   .notification-guest .secondary-button, .notification-actions .primary-button, .notification-actions .secondary-button { width: 100%; }

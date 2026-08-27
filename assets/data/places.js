@@ -24,6 +24,8 @@ const panorama = (slug, titulo) => ({
   titulo
 });
 
+import { obtenerProgramasPorEdificio } from "./academic-reference.js";
+
 export const lugares = [
   {
     id: "rectoria",
@@ -264,8 +266,8 @@ export const lugares = [
     categoria: "acceso",
     coordenadas: [19.61388716696635, -99.339454727527],
     ...imagenLugar("puerta-2", "Puerta2.jpg"),
-    resumen: "Acceso y salida indicados para personal docente y directivo.",
-    secciones: [{ titulo: "Uso indicado", items: ["Personal docente", "Personal directivo"] }]
+    resumen: "Acceso y salida indicados para alumnas y alumnos.",
+    secciones: [{ titulo: "Uso indicado", items: ["Alumnado"] }, { titulo: "Referencia cercana", items: ["Rectoría · Edificio C"] }]
   },
   {
     id: "puerta-3",
@@ -273,8 +275,8 @@ export const lugares = [
     categoria: "acceso",
     coordenadas: [19.613171955219137, -99.34140875996792],
     ...imagenLugar("puerta-3", "Puerta3.jpg"),
-    resumen: "Acceso para personal docente y directivo; la información sobre uso estudiantil está pendiente de confirmación.",
-    secciones: [{ titulo: "Nota", items: ["Consulta las indicaciones vigentes en el acceso"] }]
+    resumen: "Acceso indicado para alumnas y alumnos.",
+    secciones: [{ titulo: "Uso indicado", items: ["Alumnado"] }]
   },
   {
     id: "puerta-4",
@@ -283,7 +285,7 @@ export const lugares = [
     coordenadas: [19.613333951711006, -99.34217566011411],
     ...imagenLugar("puerta-4", "Puerta4.jpg"),
     resumen: "Acceso principal indicado para estudiantes.",
-    secciones: [{ titulo: "Uso indicado", items: ["Acceso estudiantil"] }]
+    secciones: [{ titulo: "Uso indicado", items: ["Alumnado"] }]
   },
   {
     id: "puerta-5",
@@ -320,6 +322,23 @@ export const lugares = [
     secciones: [{ titulo: "Uso del espacio", items: ["Pláticas", "Eventos universitarios"] }]
   }
 ];
+
+const avisoSinCredencial = {
+  tipo: "warning",
+  texto: "Si no cuentas con credencial escolar, descarga tu comprobante de pago y preséntalo junto con una identificación oficial con fotografía.",
+  enlace: { texto: "Ir al portal de pagos", href: "https://pagosytramites.edomex.gob.mx/recaudacion/" }
+};
+
+lugares.forEach((lugar) => {
+  const carreras = obtenerProgramasPorEdificio(lugar.id);
+  if (carreras.length) {
+    lugar.secciones = [...(lugar.secciones ?? []), {
+      titulo: "Carreras con edificio principal",
+      items: carreras.map((carrera) => carrera.nombre)
+    }];
+  }
+  if (lugar.id.startsWith("puerta-")) lugar.avisos = [avisoSinCredencial];
+});
 
 export const panoramasPendientes = [];
 
