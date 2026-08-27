@@ -1,0 +1,24 @@
+{
+  "name": "dragones-maps",
+  "version": "1.0.0",
+  "description": "Mapa interactivo del campus de la Universidad Tecnológica Fidel Velázquez",
+  "private": true,
+  "scripts": {
+    "start": "npx serve .",
+    "lint": "echo 'No linter configured'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/KetahGD/DragonesMaps"
+  },
+  "keywords": [
+    "maps",
+    "campus",
+    "utfv"
+  ],
+  "author": "KetahGD",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@vercel/analytics": "^1.3.1"
+  }
+}
