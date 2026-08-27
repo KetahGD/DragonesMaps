@@ -510,6 +510,14 @@ img { max-width: 100%; }
 .place-panel h1 { margin: 10px 0 10px; color: var(--green-900); font-family: var(--font-display); font-size: clamp(23px, 2vw, 29px); line-height: 1.15; }
 .place-panel__swipe-hint { display: none; }
 .place-panel__details { display: flex; min-width: 0; flex-direction: column; align-items: stretch; }
+.place-notices { display: grid; gap: 10px; margin: 14px 0 2px; }
+.place-notice { display: grid; gap: 7px; padding: 12px; border: 1px solid var(--border); border-left: 4px solid var(--green-600); border-radius: 10px; background: var(--green-050); }
+.place-notice--warning { border-left-color: var(--warning); background: #fff8e8; }
+.place-notice p { margin: 0; color: #405249; font-size: 12px; line-height: 1.5; }
+.place-notice a { width: fit-content; color: var(--green-800); font-size: 12px; font-weight: 800; }
+html[data-theme="dark"] .place-notice { background: rgba(103, 203, 145, .1); }
+html[data-theme="dark"] .place-notice--warning { background: rgba(214, 157, 31, .13); }
+html[data-theme="dark"] .place-notice p { color: var(--text); }
 .place-panel__official { margin: 0 0 13px; overflow-wrap: anywhere; color: var(--green-700); font-size: 13px; font-weight: 700; line-height: 1.5; }
 .place-panel__summary { margin: 0; color: #405249; font-size: 15px; line-height: 1.7; }
 .place-panel__route { width: 100%; margin-top: 18px; }

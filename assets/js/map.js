@@ -10,6 +10,7 @@ const ZOOM_INICIAL = 17;
 
 const map = L.map("map", {
   zoomControl: false,
+  doubleClickZoom: false,
   minZoom: 15,
   maxZoom: 20
 }).setView(CENTRO_CAMPUS, ZOOM_INICIAL);
@@ -26,6 +27,7 @@ let lugarActivo = null;
 let observadorUbicacion = null;
 let marcadorUsuario = null;
 let circuloPrecision = null;
+let marcadorTocado = null;
 
 function iconoCategoria(categoria) {
   const iconos = {
@@ -73,6 +75,7 @@ function renderizarFicha(lugar) {
   const categoria = panel.querySelector("[data-place-category]");
   const resumen = panel.querySelector("[data-place-summary]");
   const secciones = panel.querySelector("[data-place-sections]");
+  const avisos = panel.querySelector("[data-place-notices]");
   const panoramasContenedor = panel.querySelector("[data-place-panoramas]");
   const handle = panel.querySelector("[data-place-swipe-handle]");
 
@@ -93,6 +96,24 @@ function renderizarFicha(lugar) {
   resumen.textContent = lugar.resumen || "Información en actualización.";
   panel.querySelector("[data-route-to]").dataset.routeTo = lugar.id;
   secciones.replaceChildren();
+  avisos.replaceChildren();
+
+  (lugar.avisos ?? []).forEach((aviso) => {
+    const bloque = document.createElement("aside");
+    bloque.className = `place-notice place-notice--${aviso.tipo ?? "info"}`;
+    const texto = document.createElement("p");
+    texto.textContent = aviso.texto;
+    bloque.append(texto);
+    if (aviso.enlace?.href) {
+      const enlace = document.createElement("a");
+      enlace.href = aviso.enlace.href;
+      enlace.target = "_blank";
+      enlace.rel = "noopener noreferrer";
+      enlace.textContent = aviso.enlace.texto || "Consultar información";
+      bloque.append(enlace);
+    }
+    avisos.append(bloque);
+  });
 
   (lugar.secciones ?? []).forEach((seccion) => {
     const bloque = document.createElement("section");
@@ -131,6 +152,7 @@ function renderizarFicha(lugar) {
 }
 
 function abrirLugar(lugar, { actualizarUrl = true } = {}) {
+  marcadorTocado = null;
   document.body.classList.remove("topbar-search-open");
   document.querySelector("[data-topbar-search-toggle]")?.setAttribute("aria-expanded", "false");
   lugarActivo = lugar;
@@ -145,6 +167,7 @@ function abrirLugar(lugar, { actualizarUrl = true } = {}) {
 }
 
 function cerrarFicha({ actualizarUrl = true } = {}) {
+  marcadorTocado = null;
   const panel = document.querySelector("[data-place-panel]");
   panel.classList.remove("is-open", "is-expanded");
   panel.style.removeProperty("--sheet-drag-y");
@@ -171,8 +194,22 @@ lugares.forEach((lugar) => {
     alt: lugar.nombre,
     riseOnHover: true
   });
-  marcador.bindPopup(`<strong>${lugar.nombre}</strong><br><span>${categorias[lugar.categoria].etiqueta}</span>`);
-  marcador.on("click", () => abrirLugar(lugar));
+  marcador.bindPopup(`<strong>${lugar.nombre}</strong>`);
+  marcador.on("click", () => {
+    if (!window.matchMedia("(max-width: 900px)").matches) {
+      abrirLugar(lugar);
+      return;
+    }
+    const esSegundoToque = marcadorTocado?.id === lugar.id && Date.now() - marcadorTocado.momento < 4500;
+    if (esSegundoToque) {
+      marcadorTocado = null;
+      abrirLugar(lugar);
+      return;
+    }
+    if (lugarActivo) cerrarFicha();
+    marcador.openPopup();
+    marcadorTocado = { id: lugar.id, momento: Date.now() };
+  });
   marcador.addTo(gruposCategoria.get(lugar.categoria));
   marcadores.set(lugar.id, marcador);
 });
@@ -282,6 +319,11 @@ document.querySelector("[data-zoom-in]").addEventListener("click", () => map.zoo
 document.querySelector("[data-zoom-out]").addEventListener("click", () => map.zoomOut());
 document.querySelector("[data-map-reset]").addEventListener("click", restablecerMapa);
 document.querySelector("[data-locate]").addEventListener("click", iniciarUbicacion);
+map.on("dblclick", () => {
+  marcadorTocado = null;
+  if (lugarActivo) cerrarFicha();
+  else map.closePopup();
+});
 
 window.addEventListener("pagehide", () => {
   if (observadorUbicacion !== null) navigator.geolocation.clearWatch(observadorUbicacion);

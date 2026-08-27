@@ -10,8 +10,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/app.css?v=20260820-2">
-  <link rel="stylesheet" href="assets/css/home.css?v=20260820-4">
+  <link rel="stylesheet" href="assets/css/app.css?v=20260827-1">
+  <link rel="stylesheet" href="assets/css/home.css?v=20260827-1">
   <link rel="icon" type="image/x-icon" href="assets/images/branding/favicon.ico?v=20260820-2">
 </head>
 <body class="landing-page">
@@ -36,6 +36,12 @@
         <h1 id="landing-title">Encuentra tu destino dentro del campus</h1>
         <p class="landing-lead">Busca edificios, conoce sus áreas y explora el campus desde un mapa diseñado para estudiantes y visitantes.</p>
 
+        <aside class="new-student-notice" aria-labelledby="new-student-notice-title">
+          <p class="eyebrow">Inicio de clases</p>
+          <h2 id="new-student-notice-title">Las clases inician el 1 de septiembre</h2>
+          <p>Si eres de nuevo ingreso, a partir de esa fecha consulta en tu División Académica la información de tu grupo, turno y horario. ¡Bienvenidas y bienvenidos!</p>
+        </aside>
+
         <div class="landing-search" data-search-root role="search">
           <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
           <label class="sr-only" for="landing-search-input">Buscar un lugar</label>
@@ -50,8 +56,8 @@
 
         <p class="account-note">No se requieren cuentas. Tus preferencias y tu organizador permanecen únicamente en este dispositivo.</p>
 
-        <section id="notificaciones" class="notification-settings" data-notification-settings aria-labelledby="notification-title">
-          <div class="notification-settings__heading">
+        <details id="notificaciones" class="notification-settings" data-notification-settings>
+          <summary class="notification-settings__heading">
             <span class="notification-settings__icon" aria-hidden="true">
               <svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9ZM10 21h4"/></svg>
             </span>
@@ -61,8 +67,10 @@
               <p>Elige qué periodos te interesan. Las preferencias se guardan solo en este dispositivo.</p>
             </div>
             <span class="notification-badge" data-notification-badge>Sin configurar</span>
-          </div>
+            <span class="notification-settings__toggle" aria-hidden="true">Configurar</span>
+          </summary>
 
+          <div class="notification-settings__content">
           <form class="notification-form" data-notification-form>
             <fieldset>
               <legend>Quiero recibir avisos sobre</legend>
@@ -95,12 +103,13 @@
               <button class="notification-disable" type="button" data-notification-disable hidden>Desactivar avisos automáticos</button>
             </div>
           </form>
-        </section>
+          </div>
+        </details>
       </div>
     </section>
   </main>
 
   <script type="module" src="assets/js/site.js?v=20260825-1"></script>
-  <script type="module" src="assets/js/notifications.js?v=20260825-1"></script>
+  <script type="module" src="assets/js/notifications.js?v=20260827-1"></script>
 </body>
 </html>

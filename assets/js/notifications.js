@@ -14,6 +14,8 @@ const botonActivar = panel?.querySelector("[data-notification-enable]");
 const botonDesactivar = panel?.querySelector("[data-notification-disable]");
 let preferenciasActuales = cargarPreferenciasRecordatorios();
 
+if (panel instanceof HTMLDetailsElement && window.location.hash === "#notificaciones") panel.open = true;
+
 function cambiarEstado(mensaje, tipo = "info") {
   if (!estado) return;
   estado.textContent = mensaje;
