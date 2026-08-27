@@ -49,14 +49,15 @@
 .directory-card p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.65; }
 .directory-card a { display: inline-flex; align-items: center; gap: 6px; margin-top: auto; padding-top: 22px; color: var(--green-700); font-size: 14px; font-weight: 800; text-decoration: none; }
 .directory-card a:hover { color: var(--green-900); text-decoration: underline; }
-.directory-card__actions { display: grid; gap: 4px; margin-top: auto; }
-.directory-card__actions a { margin-top: 0; padding-top: 0; }
-.directory-payment-guide { display: grid; grid-template-columns: minmax(250px, .78fr) minmax(360px, 1.22fr); gap: 26px; align-items: center; margin-top: 28px; padding: clamp(20px, 3vw, 28px); scroll-margin-top: calc(var(--header-height) + 20px); border: 1px solid var(--green-200); border-radius: 22px; background: linear-gradient(135deg, var(--green-050), var(--surface)); box-shadow: var(--shadow-sm); }
-.directory-payment-guide h2 { margin: 2px 0 10px; color: var(--green-900); font-family: var(--font-display); font-size: clamp(22px, 3vw, 31px); line-height: 1.2; }
-.directory-payment-guide p:not(.eyebrow) { margin: 0; color: var(--muted); line-height: 1.6; }
-.directory-payment-guide__actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
-.directory-payment-guide__video { position: relative; overflow: hidden; aspect-ratio: 16 / 9; border-radius: 14px; background: var(--green-900); }
-.directory-payment-guide__video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.directory-payment-guide { display: grid; grid-template-columns: minmax(280px, .82fr) minmax(420px, 1.18fr); align-items: stretch; margin-top: 34px; overflow: hidden; scroll-margin-top: calc(var(--header-height) + 20px); border: 1px solid var(--green-200); border-radius: 24px; background: var(--surface); box-shadow: var(--shadow-md); }
+.directory-payment-guide__content { display: flex; flex-direction: column; justify-content: center; padding: clamp(26px, 4vw, 44px); }
+.directory-payment-guide h2 { max-width: 430px; margin: 2px 0 12px; color: var(--green-900); font-family: var(--font-display); font-size: clamp(24px, 3vw, 34px); line-height: 1.15; }
+.directory-payment-guide p:not(.eyebrow) { max-width: 500px; margin: 0; color: var(--muted); font-size: 14px; line-height: 1.65; }
+.directory-payment-guide__actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+.directory-payment-guide__media { display: grid; min-width: 0; align-content: center; gap: 10px; padding: 24px; background: color-mix(in srgb, var(--green-050) 74%, var(--surface)); }
+.directory-payment-guide__media > span { color: var(--green-700); font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+.directory-payment-guide__video { position: relative; width: 100%; overflow: hidden; aspect-ratio: 16 / 9; border-radius: 16px; background: var(--green-900); box-shadow: var(--shadow-md); }
+.directory-payment-guide__video iframe { position: absolute; inset: 0; display: block; width: 100%; height: 100%; border: 0; }
 
 @media (max-width: 950px) { .directory-grid, .admin-directory__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .directory-payment-guide { grid-template-columns: 1fr; } }
 @media (max-width: 900px) { .directory-main { width: min(100% - 24px, 760px); padding-top: calc(var(--header-height) + 28px); } }
@@ -65,9 +66,9 @@
   .directory-card { min-height: 205px; padding: 19px; }
   .directory-card__icon { width: 42px; height: 42px; margin-bottom: 14px; }
   .directory-card a { padding-top: 16px; }
-  .directory-card__actions { gap: 6px; }
-  .directory-card__actions a { padding-top: 0; }
-  .directory-payment-guide { gap: 18px; margin-top: 22px; padding: 18px; border-radius: 18px; }
+  .directory-payment-guide { margin-top: 22px; border-radius: 18px; }
+  .directory-payment-guide__content { padding: 22px 18px; }
+  .directory-payment-guide__media { padding: 0 18px 18px; background: var(--surface); }
   .directory-payment-guide__actions { display: grid; grid-template-columns: 1fr; }
   .directory-payment-guide__actions a { width: 100%; justify-content: center; }
   .admin-directory { margin-right: -4px; margin-left: -4px; padding: 16px; border-radius: 20px; }

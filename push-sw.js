@@ -1,4 +1,4 @@
-const CACHE_VERSION = "dragones-maps-v12";
+const CACHE_VERSION = "dragones-maps-v13";
 const APP_CACHE = `${CACHE_VERSION}-app`;
 const RUNTIME_CACHE = `${CACHE_VERSION}-runtime`;
 const TILE_CACHE = `${CACHE_VERSION}-tiles`;
@@ -32,6 +32,7 @@ const APP_SHELL = [
   "./assets/js/directory.js",
   "./assets/js/organizer.js",
   "./assets/data/places.js",
+  "./assets/data/academic-reference.js",
   "./assets/data/careers.js",
   "./assets/data/academic-reminders.js",
   "./assets/data/administrative-directory.js",
@@ -104,7 +105,7 @@ self.addEventListener("fetch", (event) => {
   }
 
   if (url.origin === self.location.origin) {
-    event.respondWith(cacheFirst(request, RUNTIME_CACHE, { ignoreSearch: true }));
+    event.respondWith(networkFirst(request));
   }
 });
 

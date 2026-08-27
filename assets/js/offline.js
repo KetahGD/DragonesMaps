@@ -4,7 +4,8 @@ export async function configurarModoOffline(mostrarAviso) {
   document.querySelector("[data-offline-retry]")?.addEventListener("click", () => window.location.reload());
   if (!("serviceWorker" in navigator) || (!window.isSecureContext && location.hostname !== "localhost" && location.hostname !== "127.0.0.1")) return;
   try {
-    await navigator.serviceWorker.register(SERVICE_WORKER, { scope: "./" });
+    const registro = await navigator.serviceWorker.register(SERVICE_WORKER, { scope: "./", updateViaCache: "none" });
+    registro.update().catch(() => {});
   } catch (error) {
     console.warn("No fue posible preparar el modo sin conexión.", error);
   }
