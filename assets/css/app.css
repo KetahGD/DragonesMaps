@@ -505,6 +505,7 @@ img { max-width: 100%; }
 .place-panel__handle { display: none; }
 .place-panel__close { position: absolute; top: 12px; right: 12px; z-index: 2; background: rgba(255, 255, 255, 0.92); box-shadow: var(--shadow-sm); }
 .place-panel__image { display: block; width: 100%; height: 238px; object-fit: cover; background: var(--green-050); filter: saturate(1.04) contrast(1.025); }
+.place-panel--no-image .place-panel__image { display: none; }
 .place-panel--no-image .place-panel__body { padding-top: 70px; }
 .place-panel__body { padding: 22px; }
 .place-panel h1 { margin: 10px 0 10px; color: var(--green-900); font-family: var(--font-display); font-size: clamp(23px, 2vw, 29px); line-height: 1.15; }

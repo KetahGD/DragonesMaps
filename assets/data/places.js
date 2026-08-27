@@ -156,6 +156,19 @@ export const lugares = [
     panoramas: [panorama("biblioteca", "Panorama de la Biblioteca Benito Juárez")]
   },
   {
+    id: "servicios-escolares",
+    nombre: "Servicios Escolares",
+    nombreOficial: "Departamento de Registro y Control Escolar",
+    alias: ["Control Escolar", "Registro Escolar", "Inscripción", "Reinscripción", "Titulación", "Certificados", "Historial académico"],
+    categoria: "servicio",
+    coordenadas: [19.61230892415873, -99.34305799443136],
+    resumen: "Área de atención para los principales trámites y documentos de la trayectoria escolar.",
+    secciones: [
+      { titulo: "Ubicación", items: ["Detrás de la Biblioteca Benito Juárez · Edificio J"] },
+      { titulo: "Trámites principales", items: ["Inscripción y reinscripción", "Historial académico y certificados escolares", "Titulación y orientación sobre asuntos escolares de la carrera"] }
+    ]
+  },
+  {
     id: "cafeteria",
     nombre: "Cafetería",
     categoria: "servicio",
