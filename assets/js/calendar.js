@@ -1,4 +1,4 @@
-import { NIVELES_ACADEMICOS, edificiosPrincipales, obtenerProgramaPorId, obtenerProgramasPorNivel } from "../data/academic-reference.js?v=20260827-1";
+import { NIVELES_ACADEMICOS, edificiosPrincipales, obtenerProgramaPorId, obtenerProgramasPorNivel } from "../data/academic-reference.js?v=20260828-1";
 
 const ACADEMIC_REFERENCE_KEY = "dragonesmaps.academic-reference.v1";
 const MESES = Array.from({ length: 16 }, (_, indice) => ({

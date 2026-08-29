@@ -1,4 +1,4 @@
-const CACHE_VERSION = "dragones-maps-v19";
+const CACHE_VERSION = "dragones-maps-v20";
 const APP_CACHE = `${CACHE_VERSION}-app`;
 const RUNTIME_CACHE = `${CACHE_VERSION}-runtime`;
 const TILE_CACHE = `${CACHE_VERSION}-tiles`;
@@ -33,7 +33,6 @@ const APP_SHELL = [
   "./assets/js/organizer.js",
   "./assets/data/places.js",
   "./assets/data/academic-reference.js",
-  "./assets/data/careers.js",
   "./assets/data/academic-reminders.js",
   "./assets/data/administrative-directory.js",
   "./assets/images/branding/dragon-logo-transparent.png",

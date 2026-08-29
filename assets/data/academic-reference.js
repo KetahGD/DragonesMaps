@@ -59,3 +59,34 @@ export function obtenerProgramasPorEdificio(edificioId) {
 export function obtenerProgramaPorId(id) {
   return programasAcademicos.find((programa) => programa.id === id) ?? null;
 }
+
+function normalizarPrograma(valor = "") {
+  return valor
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .trim();
+}
+
+export function buscarProgramasAcademicos(consulta, limite = 8) {
+  const texto = normalizarPrograma(consulta);
+  if (!texto) return [];
+
+  return programasAcademicos
+    .map((programa) => {
+      const nombre = normalizarPrograma(programa.nombre);
+      const nombreSinNivel = nombre.replace(/^(licenciatura en ingenieria|licenciatura|ingenieria|tsu)\s+(en\s+)?/, "");
+      const puntuacion = nombre === texto || nombreSinNivel === texto
+        ? 0
+        : nombreSinNivel.startsWith(texto)
+          ? 1
+          : nombre.includes(texto)
+            ? 2
+            : 99;
+      return { programa, puntuacion };
+    })
+    .filter(({ puntuacion }) => puntuacion < 99)
+    .sort((a, b) => a.puntuacion - b.puntuacion || a.programa.nombre.localeCompare(b.programa.nombre, "es"))
+    .slice(0, limite)
+    .map(({ programa }) => programa);
+}

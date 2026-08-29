@@ -24,7 +24,7 @@ const panorama = (slug, titulo) => ({
   titulo
 });
 
-import { obtenerProgramasPorEdificio } from "./academic-reference.js?v=20260827-1";
+import { obtenerProgramasPorEdificio } from "./academic-reference.js?v=20260828-1";
 
 export const lugares = [
   {

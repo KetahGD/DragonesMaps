@@ -303,6 +303,9 @@ img { max-width: 100%; }
 }
 
 .search-option:hover, .search-option.is-active { background: var(--green-050); }
+.search-option--carrera .search-option__marker { border-radius: 3px; transform: rotate(45deg); }
+.search-option:disabled { cursor: not-allowed; opacity: .62; }
+.search-option:disabled:hover { background: transparent; }
 .search-option > span:last-child { display: grid; gap: 3px; }
 .search-option strong { font-size: 14px; }
 .search-option small { color: var(--muted); font-size: 12px; }

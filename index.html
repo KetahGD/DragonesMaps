@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
-  <link rel="stylesheet" href="assets/css/app.css?v=20260828-2">
+  <link rel="stylesheet" href="assets/css/app.css?v=20260828-3">
   <link rel="icon" type="image/x-icon" href="assets/images/branding/favicon.ico?v=20260820-2">
 </head>
 <body class="map-page">
@@ -32,8 +32,8 @@
 
     <div class="map-search" role="search">
       <svg class="map-search__icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
-      <label class="sr-only" for="map-search-input">Buscar un edificio o servicio</label>
-      <input id="map-search-input" data-map-search-input type="search" placeholder="Buscar edificio o servicio…" autocomplete="off" role="combobox" aria-autocomplete="list" aria-controls="map-search-results" aria-expanded="false">
+      <label class="sr-only" for="map-search-input">Buscar un edificio, servicio o carrera</label>
+      <input id="map-search-input" data-map-search-input type="search" placeholder="Buscar edificio, servicio o carrera…" autocomplete="off" role="combobox" aria-autocomplete="list" aria-controls="map-search-results" aria-expanded="false">
       <div id="map-search-results" class="search-results" data-map-search-results role="listbox" hidden></div>
     </div>
   </header>
@@ -155,7 +155,7 @@
   <div class="toast-container" data-toast-container aria-live="polite"></div>
 
   <script src="vendor/leaflet/leaflet.js"></script>
-  <script type="module" src="assets/js/map.js?v=20260827-2"></script>
+  <script type="module" src="assets/js/map.js?v=20260828-1"></script>
   <script>
     window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
   </script>
