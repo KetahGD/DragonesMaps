@@ -11,6 +11,21 @@ export const horariosNuevoIngreso = {
     periodo: PERIODO,
     grupos: "IRD-101"
   },
+  "tsu-mercadotecnia": {
+    pdf: "assets/documents/horarios/mercadotecnia-2026-3.pdf",
+    periodo: PERIODO,
+    grupos: "MKT-101 a MKT-107"
+  },
+  "tsu-transporte": {
+    pdf: "assets/documents/horarios/transporte-movilidad-2026-3.pdf",
+    periodo: PERIODO,
+    grupos: "TYM-101 y TYM-103"
+  },
+  "tsu-suministro": {
+    pdf: "assets/documents/horarios/cadena-suministro-2026-3.pdf",
+    periodo: PERIODO,
+    grupos: "LCS-101"
+  },
   "tsu-nanotecnologia": {
     pdf: "assets/documents/horarios/nanotecnologia-biotecnologia-2026-3.pdf",
     periodo: PERIODO,
