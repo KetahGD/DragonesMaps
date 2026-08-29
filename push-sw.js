@@ -1,4 +1,4 @@
-const CACHE_VERSION = "dragones-maps-v21";
+const CACHE_VERSION = "dragones-maps-v22";
 const APP_CACHE = `${CACHE_VERSION}-app`;
 const RUNTIME_CACHE = `${CACHE_VERSION}-runtime`;
 const TILE_CACHE = `${CACHE_VERSION}-tiles`;
@@ -6,6 +6,7 @@ const APP_SHELL = [
   "./Inicio.html",
   "./index.html",
   "./calendario.html",
+  "./horarios-nuevo-ingreso.html",
   "./directorio.html",
   "./organizador.html",
   "./sin-conexion.html",
@@ -13,6 +14,7 @@ const APP_SHELL = [
   "./assets/css/app.css",
   "./assets/css/home.css",
   "./assets/css/calendar.css",
+  "./assets/css/schedules.css",
   "./assets/css/directory.css",
   "./assets/css/organizer.css",
   "./assets/js/site.js",
@@ -29,10 +31,12 @@ const APP_SHELL = [
   "./assets/js/routing.js",
   "./assets/js/panorama.js",
   "./assets/js/calendar.js",
+  "./assets/js/new-student-schedules.js",
   "./assets/js/directory.js",
   "./assets/js/organizer.js",
   "./assets/data/places.js",
   "./assets/data/academic-reference.js",
+  "./assets/data/new-student-schedules.js",
   "./assets/data/academic-reminders.js",
   "./assets/data/administrative-directory.js",
   "./assets/images/branding/dragon-logo-transparent.png",
