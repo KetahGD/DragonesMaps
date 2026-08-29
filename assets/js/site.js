@@ -1,4 +1,4 @@
-import { configurarBusqueda } from "./search.js?v=20260828-1";
+import { configurarBusqueda } from "./search.js?v=20260828-2";
 import { configurarNotificacionesLocales } from "./local-notifications.js";
 import { configurarTema } from "./theme.js?v=20260827-1";
 import { configurarModoOffline } from "./offline.js";

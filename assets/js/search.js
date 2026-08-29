@@ -1,5 +1,5 @@
-import { buscarLugares, categorias, obtenerLugarPorId } from "../data/places.js?v=20260828-1";
-import { buscarProgramasAcademicos } from "../data/academic-reference.js?v=20260828-1";
+import { buscarLugares, categorias, obtenerLugarPorId } from "../data/places.js?v=20260828-2";
+import { buscarProgramasAcademicos } from "../data/academic-reference.js?v=20260828-2";
 
 function obtenerResultados(consulta) {
   const carreras = buscarProgramasAcademicos(consulta, 8).map((programa) => {

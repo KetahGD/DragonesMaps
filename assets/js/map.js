@@ -1,5 +1,5 @@
-import { lugares, categorias, obtenerLugarPorId } from "../data/places.js?v=20260828-1";
-import { configurarBusqueda } from "./search.js?v=20260828-1";
+import { lugares, categorias, obtenerLugarPorId } from "../data/places.js?v=20260828-2";
+import { configurarBusqueda } from "./search.js?v=20260828-2";
 import { configurarVisorPanoramico } from "./panorama.js";
 import { configurarRutas } from "./routing.js";
 import { configureBottomSheets } from "./bottom-sheets.js";
