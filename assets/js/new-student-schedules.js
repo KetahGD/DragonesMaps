@@ -1,5 +1,5 @@
 import { NIVELES_ACADEMICOS, programasAcademicos } from "../data/academic-reference.js?v=20260828-2";
-import { horariosNuevoIngreso } from "../data/new-student-schedules.js?v=20260828-1";
+import { horariosNuevoIngreso } from "../data/new-student-schedules.js?v=20260828-2";
 
 function crearTarjeta(programa) {
   const horario = horariosNuevoIngreso[programa.id];
@@ -23,7 +23,7 @@ function crearTarjeta(programa) {
 
   const descripcion = document.createElement("p");
   descripcion.textContent = horario?.pdf
-    ? "Consulta el horario de nuevo ingreso publicado para esta carrera."
+    ? `${horario.periodo}. Grupos incluidos: ${horario.grupos}.`
     : "El horario de nuevo ingreso se publicará en este apartado cuando esté disponible.";
 
   const accion = document.createElement(horario?.pdf ? "a" : "span");
