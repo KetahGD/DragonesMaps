@@ -96,6 +96,7 @@ img { max-width: 100%; }
 
 .site-footer span { color: var(--green-700); font-weight: 800; text-transform: uppercase; letter-spacing: .08em; }
 .site-footer strong { color: var(--text); font-weight: 600; }
+.site-footer small { color: var(--muted); font-size: inherit; font-weight: 600; }
 .site-footer i { color: var(--green-600); font-style: normal; }
 
 :focus-visible {
