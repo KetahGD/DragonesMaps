@@ -35,5 +35,33 @@ export const horariosNuevoIngreso = {
     pdf: "assets/documents/horarios/gestion-capital-humano-2026-3.pdf",
     periodo: PERIODO,
     grupos: "GCH-101 a GCH-103"
+  },
+  "tsu-software": {
+    periodo: PERIODO,
+    grupos: "DSM-101 a DSM-104, DSM-201, DSM-301 y DSM-401 a DSM-404",
+    documentos: [
+      {
+        titulo: "Todos los grupos de DSM",
+        pdf: "assets/documents/horarios/dsm-grupos-2026-3.pdf"
+      },
+      {
+        titulo: "Grupos DSM-101 a DSM-104",
+        pdf: "assets/documents/horarios/dsm-101-104-2026-3.pdf"
+      }
+    ]
+  },
+  "ing-ti": {
+    periodo: PERIODO,
+    grupos: "LITIID-701 a LITIID-703 e IDGS",
+    documentos: [
+      {
+        titulo: "Grupos LITIID-701 a LITIID-703",
+        pdf: "assets/documents/horarios/litiid-701-703-2026-3.pdf"
+      },
+      {
+        titulo: "Horarios LITIID e IDGS",
+        pdf: "assets/documents/horarios/litiid-idgs-2026-3.pdf"
+      }
+    ]
   }
 };
