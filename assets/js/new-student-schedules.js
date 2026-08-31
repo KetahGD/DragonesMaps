@@ -1,5 +1,5 @@
 import { NIVELES_ACADEMICOS, programasAcademicos } from "../data/academic-reference.js?v=20260828-2";
-import { horariosNuevoIngreso } from "../data/new-student-schedules.js?v=20260829-2";
+import { horariosNuevoIngreso } from "../data/new-student-schedules.js?v=20260831-1";
 
 function obtenerDocumentos(horario) {
   if (horario?.documentos?.length) return horario.documentos;
@@ -41,6 +41,7 @@ function crearTarjeta(programa) {
     accion.href = documento.pdf;
     accion.target = "_blank";
     accion.rel = "noopener noreferrer";
+    if (documento.descarga) accion.download = documento.descarga;
     accion.textContent = documento.titulo;
     acciones.append(accion);
   });

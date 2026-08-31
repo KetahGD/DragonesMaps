@@ -12,19 +12,49 @@ export const horariosNuevoIngreso = {
     grupos: "IRD-101"
   },
   "tsu-mercadotecnia": {
-    pdf: "assets/documents/horarios/mercadotecnia-2026-3.pdf",
     periodo: PERIODO,
-    grupos: "MKT-101 a MKT-107"
+    grupos: "MKT-101 a MKT-107",
+    documentos: [
+      {
+        titulo: "Ver horarios en PDF",
+        pdf: "assets/documents/horarios/mercadotecnia-2026-3.pdf"
+      },
+      {
+        titulo: "Descargar listas de Mercadotecnia (Excel)",
+        pdf: "assets/documents/listas/listas-mercadotecnia-2026-3.xlsx",
+        descarga: "listas-mercadotecnia-2026-3.xlsx"
+      }
+    ]
   },
   "tsu-transporte": {
-    pdf: "assets/documents/horarios/transporte-movilidad-2026-3.pdf",
     periodo: PERIODO,
-    grupos: "TYM-101 y TYM-103"
+    grupos: "TYM-101, TYM-102 y TYM-103",
+    documentos: [
+      {
+        titulo: "Ver horarios en PDF",
+        pdf: "assets/documents/horarios/transporte-movilidad-2026-3.pdf"
+      },
+      {
+        titulo: "Descargar listas de Transporte y Movilidad (Excel)",
+        pdf: "assets/documents/listas/listas-transporte-movilidad-2026-3.xlsx",
+        descarga: "listas-transporte-movilidad-2026-3.xlsx"
+      }
+    ]
   },
   "tsu-suministro": {
-    pdf: "assets/documents/horarios/cadena-suministro-2026-3.pdf",
     periodo: PERIODO,
-    grupos: "LCS-101"
+    grupos: "LCS-101",
+    documentos: [
+      {
+        titulo: "Ver horario en PDF",
+        pdf: "assets/documents/horarios/cadena-suministro-2026-3.pdf"
+      },
+      {
+        titulo: "Descargar listas de Cadena de Suministro (Excel)",
+        pdf: "assets/documents/listas/listas-cadena-suministro-2026-3.xlsx",
+        descarga: "listas-cadena-suministro-2026-3.xlsx"
+      }
+    ]
   },
   "tsu-nanotecnologia": {
     pdf: "assets/documents/horarios/nanotecnologia-biotecnologia-2026-3.pdf",

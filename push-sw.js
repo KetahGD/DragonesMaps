@@ -1,4 +1,4 @@
-const CACHE_VERSION = "dragones-maps-v25";
+const CACHE_VERSION = "dragones-maps-v26";
 const APP_CACHE = `${CACHE_VERSION}-app`;
 const RUNTIME_CACHE = `${CACHE_VERSION}-runtime`;
 const TILE_CACHE = `${CACHE_VERSION}-tiles`;
