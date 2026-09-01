@@ -81,6 +81,16 @@ export const horariosNuevoIngreso = {
     periodo: PERIODO,
     grupos: "GCH-101 a GCH-103"
   },
+  "tsu-manufactura": {
+    periodo: PERIODO,
+    grupos: "MT-101",
+    documentos: [
+      {
+        titulo: "Ver horario MT-101 (imagen)",
+        pdf: "assets/documents/horarios/manufactura-flexible-mt-101-2026-3.png"
+      }
+    ]
+  },
   "tsu-software": {
     periodo: PERIODO,
     grupos: "DSM-101 a DSM-104, DSM-201, DSM-301 y DSM-401 a DSM-404",

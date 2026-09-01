@@ -1,4 +1,4 @@
-const CACHE_VERSION = "dragones-maps-v26";
+const CACHE_VERSION = "dragones-maps-v27";
 const APP_CACHE = `${CACHE_VERSION}-app`;
 const RUNTIME_CACHE = `${CACHE_VERSION}-runtime`;
 const TILE_CACHE = `${CACHE_VERSION}-tiles`;
@@ -49,6 +49,7 @@ const APP_SHELL = [
   "./assets/documents/horarios/cadena-suministro-2026-3.pdf",
   "./assets/documents/horarios/mercadotecnia-2026-3.pdf",
   "./assets/documents/horarios/transporte-movilidad-2026-3.pdf",
+  "./assets/documents/horarios/manufactura-flexible-mt-101-2026-3.png",
   "./assets/data/academic-reminders.js",
   "./assets/data/administrative-directory.js",
   "./assets/images/branding/dragon-logo-transparent.png",
