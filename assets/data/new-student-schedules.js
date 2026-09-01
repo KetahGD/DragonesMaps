@@ -95,13 +95,65 @@ export const horariosNuevoIngreso = {
   },
   "tsu-manufactura": {
     periodo: PERIODO,
-    grupos: "MT-101",
+    grupos: "MT-101 a MT-103 y MT-401 a MT-403",
     documentos: [
       {
         titulo: "Ver horario MT-101 (imagen)",
         pdf: "assets/documents/horarios/manufactura-flexible-mt-101-2026-3.png"
+      },
+      {
+        titulo: "Ver horarios completos · páginas 11 a 16",
+        pdf: "assets/documents/horarios/mantenimiento-manufactura-mecatronica-automotriz-industrial-2026-3.pdf#page=11"
       }
     ]
+  },
+  "tsu-mantenimiento": {
+    periodo: PERIODO,
+    grupos: "MI-101 a MI-103 y MI-401 a MI-403",
+    documentos: [{
+      titulo: "Ver horarios · páginas 1 a 6",
+      pdf: "assets/documents/horarios/mantenimiento-manufactura-mecatronica-automotriz-industrial-2026-3.pdf#page=1"
+    }]
+  },
+  "ing-mantenimiento": {
+    periodo: PERIODO,
+    grupos: "IMI-701, IMI-702, IMI-1001 e IMI-1002",
+    documentos: [{
+      titulo: "Ver horarios · páginas 7 a 10",
+      pdf: "assets/documents/horarios/mantenimiento-manufactura-mecatronica-automotriz-industrial-2026-3.pdf#page=7"
+    }]
+  },
+  "ing-mecatronica": {
+    periodo: PERIODO,
+    grupos: "IMT-701, IMT-702, IMT-901, IMT-1001 e IMT-1002",
+    documentos: [{
+      titulo: "Ver horarios · páginas 17 a 21",
+      pdf: "assets/documents/horarios/mantenimiento-manufactura-mecatronica-automotriz-industrial-2026-3.pdf#page=17"
+    }]
+  },
+  "tsu-automotriz": {
+    periodo: PERIODO,
+    grupos: "AUT-101 a AUT-105, AUT-301 y AUT-401 a AUT-404",
+    documentos: [{
+      titulo: "Ver horarios · páginas 22 a 31",
+      pdf: "assets/documents/horarios/mantenimiento-manufactura-mecatronica-automotriz-industrial-2026-3.pdf#page=22"
+    }]
+  },
+  "ing-industrial": {
+    periodo: PERIODO,
+    grupos: "IIND-701 a IIND-703",
+    documentos: [{
+      titulo: "Ver horarios · páginas 32 a 34",
+      pdf: "assets/documents/horarios/mantenimiento-manufactura-mecatronica-automotriz-industrial-2026-3.pdf#page=32"
+    }]
+  },
+  "ing-sistemas-productivos": {
+    periodo: PERIODO,
+    grupos: "ISP-1001 a ISP-1003",
+    documentos: [{
+      titulo: "Ver horarios · páginas 35 a 37",
+      pdf: "assets/documents/horarios/mantenimiento-manufactura-mecatronica-automotriz-industrial-2026-3.pdf#page=35"
+    }]
   },
   "tsu-software": {
     periodo: PERIODO,

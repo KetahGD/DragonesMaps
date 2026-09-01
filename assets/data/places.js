@@ -24,7 +24,7 @@ const panorama = (slug, titulo) => ({
   titulo
 });
 
-import { obtenerProgramasPorEdificio } from "./academic-reference.js?v=20260828-2";
+import { obtenerProgramasPorEdificio } from "./academic-reference.js?v=20260901-1";
 
 export const lugares = [
   {
@@ -329,6 +329,52 @@ export const lugares = [
     panoramas: [
       panorama("exhacienda", "Panorama de la Ex-Hacienda"),
       panorama("hacienda", "Otra vista de la Hacienda")
+    ]
+  },
+  {
+    id: "banos",
+    nombre: "Baños",
+    alias: ["Sanitarios", "Baño", "WC"],
+    categoria: "servicio",
+    coordenadas: [19.6124152, -99.3380426],
+    imagen: "assets/images/places/originals/Banos.jpg",
+    imagenMiniatura: "assets/images/places/originals/Banos.jpg",
+    imagenOriginal: "assets/images/places/originals/Banos.jpg",
+    resumen: "Servicios sanitarios disponibles dentro del campus.",
+    secciones: [{ titulo: "Servicio", items: ["Baños y lavamanos para la comunidad universitaria"] }]
+  },
+  {
+    id: "papeleria",
+    nombre: "Papelería",
+    alias: ["Papelería escolar", "Copias", "Útiles escolares", "Souvenirs UTFV"],
+    categoria: "servicio",
+    coordenadas: [19.6128772, -99.3398038],
+    imagen: "assets/images/places/originals/Papeleria.jpg",
+    imagenMiniatura: "assets/images/places/originals/Papeleria.jpg",
+    imagenOriginal: "assets/images/places/originals/Papeleria.jpg",
+    resumen: "Punto de venta de artículos escolares y productos para estudiantes.",
+    secciones: [{ titulo: "Contacto", items: ["56 1607 8957"] }],
+    avisos: [{ tipo: "info", texto: "Puedes comunicarte con la papelería antes de acudir.", enlace: { texto: "Llamar al 56 1607 8957", href: "tel:+525616078957" } }]
+  },
+  {
+    id: "isla-combis",
+    nombre: "Isla de Combis",
+    alias: ["Combis", "Transporte", "Ramal Campestre", "Ramal Toreo"],
+    categoria: "servicio",
+    coordenadas: [19.613354123598715, -99.34266995319228],
+    imagen: "assets/images/places/originals/IslaCombisCampestre.png",
+    imagenMiniatura: "assets/images/places/originals/IslaCombisCampestre.png",
+    imagenOriginal: "assets/images/places/originals/IslaCombisCampestre.png",
+    resumen: "Punto de referencia para el transporte colectivo que atiende a la comunidad universitaria.",
+    secciones: [
+      { titulo: "Horario de referencia", items: ["12:30"] },
+      { titulo: "Ramal Campestre", items: ["Gavillero", "San Pedro", "Manantiales", "Barrón", "Bramadero", "Colmena", "La Curva", "Saravia", "Puerto", "Chedraui", "Campestre", "Monte María"] },
+      { titulo: "Ramal Toreo", items: ["Colmena", "La Curva", "Olivos", "Puerto", "Pedregal", "San Javier", "Bodegas", "Atizapán", "Santa Mónica", "Satélite", "Echegaray", "Toreo"] },
+      { titulo: "Quejas y sugerencias", items: ["55 7507 1890 (WhatsApp)"] }
+    ],
+    avisos: [
+      { tipo: "info", texto: "Confirma directamente horarios, disponibilidad y recorrido antes de viajar.", enlace: { texto: "Contactar por WhatsApp", href: "https://wa.me/525575071890" } },
+      { tipo: "info", texto: "También puedes consultar la referencia visual del ramal Toreo.", enlace: { texto: "Ver letrero del ramal Toreo", href: "assets/images/places/originals/IslaCombisToreo.png" } }
     ]
   },
   {

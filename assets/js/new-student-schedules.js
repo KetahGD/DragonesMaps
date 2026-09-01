@@ -1,5 +1,5 @@
-import { NIVELES_ACADEMICOS, programasAcademicos } from "../data/academic-reference.js?v=20260828-2";
-import { horariosNuevoIngreso } from "../data/new-student-schedules.js?v=20260831-3";
+import { NIVELES_ACADEMICOS, programasAcademicos } from "../data/academic-reference.js?v=20260901-1";
+import { horariosNuevoIngreso } from "../data/new-student-schedules.js?v=20260901-1";
 
 function obtenerDocumentos(horario) {
   if (horario?.documentos?.length) return horario.documentos;

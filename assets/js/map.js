@@ -1,18 +1,25 @@
-import { lugares, categorias, obtenerLugarPorId } from "../data/places.js?v=20260828-2";
-import { configurarBusqueda } from "./search.js?v=20260828-2";
+import { lugares, categorias, obtenerLugarPorId } from "../data/places.js?v=20260901-1";
+import { configurarBusqueda } from "./search.js?v=20260901-1";
 import { configurarVisorPanoramico } from "./panorama.js";
 import { configurarRutas } from "./routing.js";
 import { configureBottomSheets } from "./bottom-sheets.js";
-import { mostrarToast } from "./site.js?v=20260827-2";
+import { mostrarToast } from "./site.js?v=20260901-1";
 
 const CENTRO_CAMPUS = [19.61275, -99.34035];
 const ZOOM_INICIAL = 17;
+// Área de navegación: campus completo más un margen aproximado de 2 km.
+const LIMITES_CAMPUS = L.latLngBounds(
+  [19.5917, -99.3652],
+  [19.6319, -99.3170]
+);
 
 const map = L.map("map", {
   zoomControl: false,
   doubleClickZoom: false,
   minZoom: 15,
-  maxZoom: 20
+  maxZoom: 20,
+  maxBounds: LIMITES_CAMPUS,
+  maxBoundsViscosity: 1
 }).setView(CENTRO_CAMPUS, ZOOM_INICIAL);
 
 L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {

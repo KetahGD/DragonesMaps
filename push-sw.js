@@ -1,4 +1,4 @@
-const CACHE_VERSION = "dragones-maps-v29";
+const CACHE_VERSION = "dragones-maps-v30";
 const APP_CACHE = `${CACHE_VERSION}-app`;
 const RUNTIME_CACHE = `${CACHE_VERSION}-runtime`;
 const TILE_CACHE = `${CACHE_VERSION}-tiles`;
@@ -39,6 +39,7 @@ const APP_SHELL = [
   "./assets/data/places.js",
   "./assets/data/academic-reference.js",
   "./assets/data/new-student-schedules.js",
+  "./assets/data/official-sites.js",
   "./assets/documents/horarios/ciencias-datos-redes-2026-3.pdf",
   "./assets/documents/horarios/nanotecnologia-biotecnologia-2026-3.pdf",
   "./assets/documents/horarios/diseno-animacion-digital-2026-3.pdf",
@@ -55,11 +56,16 @@ const APP_SHELL = [
   "./assets/documents/horarios/lilg-ldgrl-2026-3.pdf",
   "./assets/documents/horarios/tym-lcs-2026-3.pdf",
   "./assets/documents/horarios/tym-adicional-2026-3.pdf",
+  "./assets/documents/horarios/mantenimiento-manufactura-mecatronica-automotriz-industrial-2026-3.pdf",
   "./assets/data/academic-reminders.js",
   "./assets/data/administrative-directory.js",
   "./assets/images/branding/dragon-logo-transparent.png",
   "./assets/images/branding/dragones-maps-transparent.png",
   "./assets/images/branding/favicon.ico",
+  "./assets/images/places/originals/Banos.jpg",
+  "./assets/images/places/originals/Papeleria.jpg",
+  "./assets/images/places/originals/IslaCombisCampestre.png",
+  "./assets/images/places/originals/IslaCombisToreo.png",
   "./vendor/leaflet/leaflet.css",
   "./vendor/leaflet/leaflet.js",
   "./vendor/pannellum/pannellum.css",

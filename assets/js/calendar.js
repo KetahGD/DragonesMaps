@@ -1,4 +1,4 @@
-import { NIVELES_ACADEMICOS, edificiosPrincipales, obtenerProgramaPorId, obtenerProgramasPorNivel } from "../data/academic-reference.js?v=20260828-2";
+import { NIVELES_ACADEMICOS, edificiosPrincipales, obtenerProgramaPorId, obtenerProgramasPorNivel } from "../data/academic-reference.js?v=20260901-1";
 
 const ACADEMIC_REFERENCE_KEY = "dragonesmaps.academic-reference.v1";
 const MESES = Array.from({ length: 16 }, (_, indice) => ({
@@ -137,6 +137,15 @@ const nombresMeses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Ju
 const diasSemana = ["D", "L", "M", "M", "J", "V", "S"];
 const hoy = new Date();
 const hoyClave = formatearFecha(hoy);
+
+const avisoHoy = document.querySelector("[data-calendar-today-events]");
+const eventosHoy = datosCalendario[hoyClave] || [];
+if (avisoHoy && eventosHoy.length) {
+  const etiquetas = eventosHoy.map((tipo) => EVENTOS[tipo].etiqueta);
+  avisoHoy.querySelector("[data-calendar-today-title]").textContent = etiquetas.length === 1 ? etiquetas[0] : `${etiquetas.length} eventos académicos`;
+  avisoHoy.querySelector("[data-calendar-today-description]").textContent = etiquetas.join(" · ");
+  avisoHoy.hidden = false;
+}
 
 function formatearFecha(fecha) {
   return `${fecha.getFullYear()}-${String(fecha.getMonth() + 1).padStart(2, "0")}-${String(fecha.getDate()).padStart(2, "0")}`;

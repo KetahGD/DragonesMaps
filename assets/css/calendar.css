@@ -9,6 +9,14 @@
 .calendar-main .page-heading { align-items: end; }
 .calendar-main .page-heading h1 { max-width: 850px; }
 .calendar-main .secondary-button { cursor: pointer; }
+.calendar-today-notice { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 14px; margin: -8px 0 20px; padding: 15px 17px; border: 1px solid var(--green-300); border-radius: 15px; background: var(--green-050); box-shadow: var(--shadow-sm); }
+.calendar-today-notice[hidden] { display: none; }
+.calendar-today-notice > span { display: grid; width: 42px; height: 42px; place-items: center; border-radius: 12px; background: var(--green-700); color: #fff; }
+.calendar-today-notice svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.calendar-today-notice div { display: grid; gap: 2px; }
+.calendar-today-notice small { color: var(--green-700); font-size: 9px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+.calendar-today-notice strong { color: var(--green-900); font-family: var(--font-display); font-size: 16px; }
+.calendar-today-notice p { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.45; }
 .page-heading__actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 10px; }
 
 .calendar-toolbar {
@@ -130,6 +138,7 @@ html[data-theme="dark"] .calendar-today {
 
 html[data-theme="dark"] .calendar-today:hover { background: var(--green-100); }
 html[data-theme="dark"] .calendar-current-date { color: #90d7a8; }
+html[data-theme="dark"] .calendar-today-notice { border-color: #315e43; background: #102c1e; }
 
 html[data-theme="dark"] .academic-reference {
   border-color: #31543d;

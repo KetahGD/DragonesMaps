@@ -40,12 +40,13 @@ export const programasAcademicos = [
   ["ing-datos", "licenciatura", "Licenciatura en Ingeniería en Datos e Inteligencia Artificial", "edificio-m"],
   ["ing-biotecnologia", "licenciatura", "Licenciatura en Ingeniería en Biotecnología", "edificio-k"],
   ["ing-logistica", "licenciatura", "Licenciatura en Ingeniería Logística", "edificio-o"],
-  ["ing-industrial", "licenciatura", "Licenciatura en Ingeniería Industrial", null],
+  ["ing-industrial", "licenciatura", "Licenciatura en Ingeniería Industrial", "edificio-k"],
   ["ing-mantenimiento", "licenciatura", "Licenciatura en Ingeniería en Mantenimiento Industrial", "edificio-k"],
   ["ing-mecatronica", "licenciatura", "Licenciatura en Ingeniería en Mecatrónica", "edificio-k"],
   ["ing-ti", "licenciatura", "Licenciatura en Ingeniería en Tecnologías de la Información e Innovación Digital", "edificio-d"],
   ["ing-nanotecnologia", "licenciatura", "Licenciatura en Ingeniería en Nanotecnología", null],
-  ["ing-ambiental", "licenciatura", "Licenciatura en Ingeniería en Ambiental y Sustentabilidad", "edificio-k"]
+  ["ing-ambiental", "licenciatura", "Licenciatura en Ingeniería en Ambiental y Sustentabilidad", "edificio-k"],
+  ["ing-sistemas-productivos", "licenciatura", "Ingeniería en Sistemas Productivos", "edificio-k"]
 ].map(([id, nivel, nombre, edificioId]) => ({ id, nivel, nombre, edificioId }));
 
 export function obtenerProgramasPorNivel(nivel) {

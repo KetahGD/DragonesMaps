@@ -1,5 +1,6 @@
-import { buscarLugares, categorias, obtenerLugarPorId } from "../data/places.js?v=20260828-2";
-import { buscarProgramasAcademicos } from "../data/academic-reference.js?v=20260828-2";
+import { buscarLugares, categorias, obtenerLugarPorId } from "../data/places.js?v=20260901-1";
+import { buscarProgramasAcademicos } from "../data/academic-reference.js?v=20260901-1";
+import { buscarSitiosOficiales } from "../data/official-sites.js?v=20260901-1";
 
 function obtenerResultados(consulta) {
   const carreras = buscarProgramasAcademicos(consulta, 8).map((programa) => {
@@ -21,7 +22,15 @@ function obtenerResultados(consulta) {
     lugar
   }));
 
-  return [...carreras, ...lugares].slice(0, 10);
+  const paginas = buscarSitiosOficiales(consulta, 5).map((sitio) => ({
+    tipo: "pagina",
+    nombre: sitio.nombre,
+    descripcion: "Sitio oficial de la división",
+    color: "#335c9f",
+    href: sitio.href
+  }));
+
+  return [...carreras, ...lugares, ...paginas].slice(0, 12);
 }
 
 export function configurarBusqueda({ input, contenedor, alSeleccionar }) {
@@ -38,9 +47,14 @@ export function configurarBusqueda({ input, contenedor, alSeleccionar }) {
   };
 
   const elegir = (resultado) => {
-    if (!resultado?.lugar) return;
+    if (!resultado) return;
     input.value = resultado.nombre;
     cerrar();
+    if (resultado.href) {
+      window.location.href = resultado.href;
+      return;
+    }
+    if (!resultado.lugar) return;
     alSeleccionar(resultado.lugar, resultado);
   };
 
@@ -57,7 +71,7 @@ export function configurarBusqueda({ input, contenedor, alSeleccionar }) {
 
   const moverSeleccion = (direccion) => {
     const disponibles = resultados
-      .map((resultado, indice) => resultado.lugar ? indice : -1)
+      .map((resultado, indice) => resultado.lugar || resultado.href ? indice : -1)
       .filter((indice) => indice >= 0);
     if (!disponibles.length) return;
     const posicion = disponibles.indexOf(indiceActivo);
@@ -79,7 +93,7 @@ export function configurarBusqueda({ input, contenedor, alSeleccionar }) {
     if (!resultados.length) {
       const vacio = document.createElement("div");
       vacio.className = "search-empty";
-      vacio.textContent = "No encontramos edificios, servicios o carreras con ese nombre.";
+      vacio.textContent = "No encontramos edificios, servicios, carreras o divisiones con ese nombre.";
       contenedor.append(vacio);
     } else {
       resultados.forEach((resultado, indice) => {
@@ -89,7 +103,7 @@ export function configurarBusqueda({ input, contenedor, alSeleccionar }) {
         opcion.className = `search-option search-option--${resultado.tipo}`;
         opcion.setAttribute("role", "option");
         opcion.setAttribute("aria-selected", "false");
-        if (!resultado.lugar) {
+        if (!resultado.lugar && !resultado.href) {
           opcion.disabled = true;
           opcion.setAttribute("aria-disabled", "true");
         }
@@ -133,7 +147,7 @@ export function configurarBusqueda({ input, contenedor, alSeleccionar }) {
       moverSeleccion(-1);
     } else if (evento.key === "Enter") {
       evento.preventDefault();
-      const resultado = resultados[indiceActivo >= 0 ? indiceActivo : resultados.findIndex((item) => item.lugar)];
+      const resultado = resultados[indiceActivo >= 0 ? indiceActivo : resultados.findIndex((item) => item.lugar || item.href)];
       elegir(resultado);
     }
   };
