@@ -35,6 +35,14 @@ export const horariosNuevoIngreso = {
         pdf: "assets/documents/horarios/transporte-movilidad-2026-3.pdf"
       },
       {
+        titulo: "Ver horarios TYM y LCS 2026-3",
+        pdf: "assets/documents/horarios/tym-lcs-2026-3.pdf"
+      },
+      {
+        titulo: "Ver horarios adicionales de TYM",
+        pdf: "assets/documents/horarios/tym-adicional-2026-3.pdf"
+      },
+      {
         titulo: "Descargar listas de Transporte y Movilidad (Excel)",
         pdf: "assets/documents/listas/listas-transporte-movilidad-2026-3.xlsx",
         descarga: "listas-transporte-movilidad-2026-3.xlsx"
@@ -48,6 +56,10 @@ export const horariosNuevoIngreso = {
       {
         titulo: "Ver horario en PDF",
         pdf: "assets/documents/horarios/cadena-suministro-2026-3.pdf"
+      },
+      {
+        titulo: "Ver horarios TYM y LCS 2026-3",
+        pdf: "assets/documents/horarios/tym-lcs-2026-3.pdf"
       },
       {
         titulo: "Descargar listas de Cadena de Suministro (Excel)",
@@ -116,6 +128,16 @@ export const horariosNuevoIngreso = {
       {
         titulo: "Horarios LITIID e IDGS",
         pdf: "assets/documents/horarios/litiid-idgs-2026-3.pdf"
+      }
+    ]
+  },
+  "ing-logistica": {
+    periodo: PERIODO,
+    grupos: "LILG y LDGRL",
+    documentos: [
+      {
+        titulo: "Ver horarios LILG y LDGRL 2026-3",
+        pdf: "assets/documents/horarios/lilg-ldgrl-2026-3.pdf"
       }
     ]
   }
